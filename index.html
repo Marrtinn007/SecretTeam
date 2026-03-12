@@ -1453,16 +1453,37 @@ window.renderAdmin = function(){
 window.openEditMember=(uid,nick,role)=>{ $('edit-uid').value=uid; $('edit-nick').value=nick; $('edit-role').value=role; openModal('modal-edit-member'); };
 window.saveMemberEdit=async()=>{ await update(ref(db,`users/${$('edit-uid').value}`),{nick:$('edit-nick').value.trim(),role:$('edit-role').value}); closeModal('modal-edit-member'); showToast('อัปเดตแล้ว ✅'); };
 window.openResetPw=(uid)=>{ $('reset-pw-uid').value=uid; $('reset-pw-val').value=''; $('reset-pw-val2').value=''; openModal('modal-reset-pw'); };
+const WORKER = "https://secretteam-api.ou415201.workers.dev";
+
+async function workerCall(path, data) {
+  const idToken = await auth.currentUser.getIdToken();
+  const res = await fetch(WORKER + path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...data, idToken }),
+  });
+  const json = await res.json();
+  if (!res.ok || json.error) throw new Error(json.error || "เกิดข้อผิดพลาด");
+  return json;
+}
+
 window.doResetPw=async()=>{
   const pw=$('reset-pw-val').value; const pw2=$('reset-pw-val2').value;
+  const uid=$('reset-pw-uid').value;
   if(pw.length<6){ showToast('รหัสผ่านต้องอย่างน้อย 6 ตัว','warn'); return; }
   if(pw!==pw2){ showToast('รหัสผ่านไม่ตรงกัน','err'); return; }
-  // Store hashed pw for next login — note: full Firebase Admin only possible server-side
-  // Workaround: store new pass in DB for admin-reset flow
-  await update(ref(db,`users/${$('reset-pw-uid').value}`),{pendingPwReset:pw});
-  closeModal('modal-reset-pw'); showToast('บันทึก reset รหัสผ่านแล้ว (จะมีผลตอนล็อกอินครั้งถัดไป)');
+  try {
+    await workerCall('/resetPassword', { uid, newPass: pw });
+    closeModal('modal-reset-pw'); showToast('รีเซ็ตรหัสผ่านแล้ว 🔑');
+  } catch(e){ showToast('เกิดข้อผิดพลาด: '+e.message,'err'); }
 };
-window.confirmDeleteMember=(uid,nick)=>showConfirm('🗑',`ลบ @${nick}?`,`ต้องการลบสมาชิก "${nick}" จริงมั้ย?`,'account จะถูกลบออกจากระบบ','ลบสมาชิก','btn-danger',()=>remove(ref(db,`users/${uid}`)));
+
+window.confirmDeleteMember=(uid,nick)=>showConfirm('🗑',`ลบ @${nick}?`,`ต้องการลบสมาชิก "${nick}" จริงมั้ย?`,'account จะถูกลบออกจากระบบ','ลบสมาชิก','btn-danger',async()=>{
+  try {
+    await workerCall('/deleteUser', { uid });
+    showToast(`ลบ @${nick} แล้ว`);
+  } catch(e){ showToast('เกิดข้อผิดพลาด: '+e.message,'err'); }
+});
 
 window.createAccount = async function(){
   const nick=$('new-nick').value.trim(); const role=$('new-role').value;
@@ -1470,20 +1491,17 @@ window.createAccount = async function(){
   if(!nick||!pass){ showToast('กรอกข้อมูลให้ครบ','warn'); return; }
   if(pass.length<6){ showToast('รหัสผ่านต้องอย่างน้อย 6 ตัว','warn'); return; }
   if(pass!==pass2){ showToast('รหัสผ่านไม่ตรงกัน','err'); return; }
-  // Store pending account — actual Firebase Auth creation requires Admin SDK
-  // But we store in DB so user can log in via our custom flow
-  const email=nick.toLowerCase().replace(/\s+/g,'')+EMAIL_DOMAIN;
+  const btn=document.querySelector('#panel-admin .card .btn-blue');
+  if(btn){ btn.disabled=true; btn.textContent='กำลังสร้าง...'; }
   try {
-    // Try to create in Firebase Auth directly (will sign out current admin!)
-    // Better: use pending_accounts and let the user do first-login setup
-    const newRef=push(ref(db,'pending_accounts'));
-    await set(newRef,{nick,role,email,pass,createdBy:ME.uid,ts:Date.now()});
-    // Also write to users/ so they appear in members list
-    const uid='user_'+Date.now();
-    await set(ref(db,`users/${uid}`),{nick,role,email,online:false,createdAt:Date.now()});
+    await workerCall('/createUser', { nick, role, pass });
     showToast(`✅ สร้าง @${nick} แล้ว! ให้ login ด้วยชื่อ "${nick}"`);
     $('new-nick').value=''; $('new-pass').value=''; $('new-pass2').value='';
-  } catch(e){ showToast('เกิดข้อผิดพลาด: '+e.message,'err'); }
+  } catch(e){
+    showToast(e.message,'err');
+  } finally {
+    if(btn){ btn.disabled=false; btn.textContent='สร้าง Account →'; }
+  }
 };
 
 // ===== PROFILE =====
