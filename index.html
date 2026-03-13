@@ -885,7 +885,16 @@ window.doLogout = async()=>{ if(ME) await update(ref(db,`users/${ME.uid}`),{onli
 onAuthStateChanged(auth, async user=>{
   if(user){
     const snap = await get(ref(db,`users/${user.uid}`));
-    const p = snap.val()||{};
+    const p = snap.val();
+    // ถ้าไม่มีข้อมูลใน DB แสดงว่า account ถูกลบแล้ว → logout ทันที
+    if(!p){
+      await signOut(auth);
+      showLogin();
+      const err=$('login-err');
+      err.textContent='account นี้ถูกลบแล้ว กรุณาติดต่อ Admin';
+      err.style.display='block';
+      return;
+    }
     ME = { uid:user.uid, email:user.email, nick:p.nick||user.email.split('@')[0], role:p.role||'member' };
     await update(ref(db,`users/${ME.uid}`),{online:true,lastSeen:Date.now(),nick:ME.nick,role:ME.role});
     showApp();
