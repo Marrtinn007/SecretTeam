@@ -124,7 +124,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 #panel-chat.active{display:flex;flex-direction:column;height:100%}
 .chat-wrap{display:flex;flex:1;overflow:hidden;height:100%}
 
-/* Chat list */
 .chat-list-col{width:280px;min-width:280px;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;background:var(--s1)}
 .chat-list-head{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .chat-list-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -140,7 +139,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 .cl-badge{background:var(--rose);color:white;font-size:9px;padding:1px 6px;border-radius:20px;font-family:var(--mono);flex-shrink:0}
 .online-dot{width:9px;height:9px;background:var(--teal);border-radius:50%;border:2px solid var(--s1);position:absolute;bottom:9px;left:39px}
 
-/* Chat conversation */
 .chat-conv-col{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .chat-head{padding:10px 14px;border-bottom:1px solid var(--border);background:var(--s1);display:flex;align-items:center;gap:10px;flex-shrink:0}
 .chat-back{display:none;background:none;border:none;color:var(--t2);font-size:22px;cursor:pointer;padding:2px 6px;border-radius:8px;line-height:1}
@@ -151,7 +149,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 .icon-btn{width:34px;height:34px;border-radius:8px;background:none;border:none;color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .15s}
 .icon-btn:hover{background:var(--s2);color:var(--text)}
 
-/* Messages */
 .msgs-area{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch}
 .date-div{text-align:center;margin:10px 0;position:relative}
 .date-div span{font-size:10px;color:var(--t3);font-family:var(--mono);background:var(--bg);padding:0 10px;position:relative;z-index:1}
@@ -180,7 +177,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 .ma-btn{background:none;border:none;cursor:pointer;padding:3px 6px;border-radius:12px;font-size:13px;color:var(--t2);transition:all .15s}
 .ma-btn:hover{background:var(--s3);color:var(--text)}
 
-/* Poll */
 .poll-bub{background:var(--s2);border-radius:14px;padding:12px;min-width:180px;max-width:260px}
 .msg-row.me .poll-bub{background:#4f8ef730;border:1px solid #4f8ef750}
 .poll-q{font-size:13px;font-weight:700;margin-bottom:10px}
@@ -189,16 +185,13 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 .poll-bar{position:absolute;left:0;top:0;bottom:0;background:#4f8ef718;transition:width .4s;pointer-events:none}
 .poll-pct{margin-left:auto;font-size:11px;color:var(--t2);font-family:var(--mono)}
 
-/* Location */
 .loc-bub{border-radius:14px;overflow:hidden;max-width:240px;border:1px solid var(--border2);text-decoration:none;display:block}
 .loc-info-bub{padding:8px 12px;background:var(--s2)}
 
-/* Draw canvas */
 .draw-tools{display:flex;gap:8px;align-items:center;padding:8px 0;flex-wrap:wrap}
 .draw-color{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .15s;flex-shrink:0}
 .draw-color.active{border-color:white;transform:scale(1.2)}
 
-/* Chat input */
 .chat-input-wrap{padding:10px 14px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--border);background:var(--s1);flex-shrink:0}
 .chat-input-row{display:flex;gap:8px;align-items:flex-end}
 .chat-inp-box{flex:1;display:flex;align-items:flex-end;background:var(--s2);border:1px solid var(--border2);border-radius:22px;padding:7px 12px;gap:6px;transition:border-color .15s}
@@ -217,7 +210,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 .edit-bar{background:#4f8ef718;border-left:3px solid var(--blue);border-radius:5px;padding:5px 10px;margin-bottom:7px;font-size:12px;color:var(--t2);display:none;justify-content:space-between;align-items:center}
 .edit-bar.show{display:flex}
 
-/* Members sidebar */
 .members-col{width:190px;min-width:190px;background:var(--s1);border-left:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column}
 .members-col.hidden{display:none}
 .mp-head{padding:11px 13px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
@@ -230,19 +222,16 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 .profile-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:22px;max-width:460px;margin-bottom:16px}
 .loginid-box{background:var(--s3);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;font-family:var(--mono);font-size:13px;color:var(--t2);display:flex;align-items:center;gap:8px;margin-bottom:14px;user-select:none}
 
-/* Mood */
 .mood-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:8px;background:var(--s2);border-radius:10px}
 .mood-opt{font-size:22px;cursor:pointer;text-align:center;padding:6px;border-radius:8px;transition:all .15s;border:2px solid transparent}
 .mood-opt:hover{background:var(--s3)}.mood-opt.sel{background:#4f8ef714;border-color:var(--blue)}
 
-/* Checklist - FIXED */
 .checklist{display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
 .chk-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;cursor:pointer;font-size:13px;border:1px solid transparent;transition:all .15s;user-select:none}
 .chk-item:hover{background:var(--s2)}.chk-item.on{background:#4f8ef714;border-color:#4f8ef730}
 .chk-box{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;background:var(--s2);transition:all .15s}
 .chk-item.on .chk-box{background:var(--blue);border-color:var(--blue);color:white}
 
-/* Emoji grid */
 .emoji-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;padding:8px}
 .emoji-opt{font-size:22px;cursor:pointer;text-align:center;padding:6px;border-radius:8px;transition:all .15s;border:2px solid transparent}
 .emoji-opt:hover{background:var(--s2)}.emoji-opt.sel{background:#4f8ef714;border-color:var(--blue)}
@@ -303,7 +292,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   .notes-grid{grid-template-columns:1fr}
   .admin-grid{grid-template-columns:1fr 1fr}
   .topbar{padding:10px 12px}
-  /* Mobile chat: full screen list or full screen conv */
   .chat-list-col{width:100%;min-width:unset;border-right:none}
   .chat-list-col.hide-mobile{display:none}
   .chat-conv-col.hide-mobile{display:none}
@@ -454,10 +442,9 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
         </div>
       </div>
 
-      <!-- CHAT PANEL (outside content-area) -->
+      <!-- CHAT PANEL -->
       <div id="panel-chat">
         <div class="chat-wrap">
-          <!-- List col -->
           <div class="chat-list-col" id="chat-list-col">
             <div class="chat-list-head">
               <span style="font-size:15px;font-weight:800">Messages</span>
@@ -468,7 +455,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
               <div class="cl-section"><div class="cl-label">Direct Messages</div><div id="cl-dms"></div></div>
             </div>
           </div>
-          <!-- Conv col -->
           <div class="chat-conv-col hide-mobile" id="chat-conv-col">
             <div class="chat-head">
               <button class="chat-back" onclick="backToList()">‹</button>
@@ -496,7 +482,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
               </div>
             </div>
           </div>
-          <!-- Members col -->
           <div class="members-col hidden" id="members-col">
             <div class="mp-head"><span>สมาชิก</span><button class="icon-btn" onclick="toggleMembersCol()">✕</button></div>
             <div id="members-col-list" style="flex:1;overflow-y:auto;padding:8px"></div>
@@ -517,7 +502,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 </nav>
 
 <!-- MODALS -->
-<!-- New Channel -->
 <div class="modal-overlay" id="modal-new-channel"><div class="modal">
   <div class="modal-title">✨ สร้างช่องแชทใหม่</div>
   <div class="form-group"><label>ชื่อช่อง</label><input id="nc-name" class="inp" placeholder="เช่น random" style="width:100%" autocapitalize="none"></div>
@@ -538,7 +522,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-new-channel')">ยกเลิก</button><button class="btn btn-blue" onclick="createChannel()">สร้างช่อง →</button></div>
 </div></div>
 
-<!-- Join Secret -->
 <div class="modal-overlay" id="modal-join-secret"><div class="modal">
   <div class="modal-title">🔒 ห้องลับ</div>
   <div style="font-size:13px;color:var(--t2);margin-bottom:14px">เลือก emoji รหัสให้ถูกต้องเพื่อเข้าห้อง</div>
@@ -549,7 +532,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-join-secret')">ยกเลิก</button><button class="btn btn-blue" onclick="joinSecretRoom()">เข้าห้อง →</button></div>
 </div></div>
 
-<!-- Room Settings -->
 <div class="modal-overlay" id="modal-room-cfg"><div class="modal">
   <div class="modal-title">⚙️ ตั้งค่าห้อง</div>
   <div class="form-group"><label>ชื่อห้อง</label><input id="rs-name" class="inp" style="width:100%"></div>
@@ -559,7 +541,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   <div class="modal-footer"><button class="btn btn-danger" onclick="confirmDeleteRoom()">🗑 ลบห้อง</button><button class="btn btn-ghost" onclick="closeModal('modal-room-cfg')">ยกเลิก</button><button class="btn btn-blue" onclick="saveRoomSettings()">บันทึก</button></div>
 </div></div>
 
-<!-- Edit Member -->
 <div class="modal-overlay" id="modal-edit-member"><div class="modal">
   <div class="modal-title">✏️ แก้ไขสมาชิก</div>
   <div class="form-group"><label>ชื่อเล่น</label><input id="em-nick" class="inp" style="width:100%"></div>
@@ -568,7 +549,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-edit-member')">ยกเลิก</button><button class="btn btn-blue" onclick="saveMemberEdit()">บันทึก</button></div>
 </div></div>
 
-<!-- Poll -->
 <div class="modal-overlay" id="modal-poll"><div class="modal">
   <div class="modal-title">🗳️ สร้างโหวต</div>
   <div class="form-group"><label>คำถาม</label><input id="poll-q" class="inp" placeholder="ถามอะไร..." style="width:100%"></div>
@@ -581,7 +561,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-poll')">ยกเลิก</button><button class="btn btn-blue" onclick="sendPoll()">ส่งโหวต →</button></div>
 </div></div>
 
-<!-- Draw -->
 <div class="modal-overlay" id="modal-draw"><div class="modal" style="max-width:500px">
   <div class="modal-title">🎨 วาดรูป</div>
   <div class="draw-tools">
@@ -601,7 +580,6 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-draw')">ยกเลิก</button><button class="btn btn-blue" onclick="sendDrawing()">ส่งรูป →</button></div>
 </div></div>
 
-<!-- Location -->
 <div class="modal-overlay" id="modal-location"><div class="modal" style="max-width:380px">
   <div class="modal-title">📍 แชร์โลเคชั่น</div>
   <div id="loc-preview" style="border-radius:10px;overflow:hidden;margin-bottom:14px;background:var(--s2);height:180px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--t3)">กำลังโหลด...</div>
@@ -609,26 +587,25 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-location')">ยกเลิก</button><button class="btn btn-blue" onclick="sendLocation()">ส่ง →</button></div>
 </div></div>
 
-<!-- Confirm -->
 <div class="modal-overlay" id="modal-confirm"><div class="modal" style="max-width:340px">
   <div class="confirm-center"><div style="font-size:40px;margin-bottom:12px" id="conf-ico">🗑</div><div style="font-size:16px;font-weight:800;margin-bottom:8px" id="conf-title"></div><div style="font-size:14px;color:var(--t2);line-height:1.6" id="conf-msg"></div><div style="font-size:12px;color:var(--t3);margin-top:6px;font-family:var(--mono)" id="conf-sub"></div></div>
   <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-confirm')">ยกเลิก</button><button class="btn btn-danger" id="conf-ok">ยืนยัน</button></div>
 </div></div>
 
-<!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lb-close" onclick="closeLightbox()">✕</button>
   <img id="lb-img" src="" style="display:none">
   <video id="lb-vid" controls style="display:none"></video>
 </div>
 <div class="toast" id="toast"></div>
+
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import{getAuth,signInWithEmailAndPassword,signOut,updatePassword,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import{getDatabase,ref,set,get,push,onValue,off,update,remove,query,orderByChild,limitToLast}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const FB={apiKey:"AIzaSyDA8pROrR6CKhYzuwPGtEweeENTRqSgq9U",authDomain:"secretteam-7b3fa.firebaseapp.com",databaseURL:"https://secretteam-7b3fa-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"secretteam-7b3fa",appId:"1:291395638372:web:2b0079f725bf1f45483b71"};
-const CLOUD="dzcaewtrl",PRESET="secretteam_unsigned",EDOMAIN="@secretteam.local";
+const CLOUD="dzcaewtrl",PRESET="secretteam_unsigned",EDOMAIN="@secretteam.app";
 const WORKER="https://secretteam-api.ou415201.workers.dev",ASECRET="ST@dm!n2026";
 
 const app=initializeApp(FB),auth=getAuth(app),db=getDatabase(app);
@@ -666,13 +643,11 @@ window.showConfirm=(ico,title,msg,sub,okLbl,okCls,cb)=>{
 };
 $("conf-ok").onclick=()=>{closeModal("modal-confirm");if(confirmCb)confirmCb();};
 
-// WORKER
 async function workerCall(path,data){
   const res=await fetch(WORKER+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...data,adminSecret:ASECRET})});
   const json=await res.json();if(!res.ok||json.error)throw new Error(json.error||"เกิดข้อผิดพลาด");return json;
 }
 
-// SIDEBAR / NAV
 window.toggleSidebar=()=>{const s=$("sidebar"),o=$("sidebar-overlay");s.classList.contains("open")?(s.classList.remove("open"),o.classList.remove("show")):(s.classList.add("open"),o.classList.add("show"));};
 window.closeSidebar=()=>{$("sidebar").classList.remove("open");$("sidebar-overlay").classList.remove("show");};
 window.syncBN=key=>{document.querySelectorAll(".bn-item").forEach(x=>x.classList.remove("active"));const e=$("bn-"+key);if(e)e.classList.add("active");};
@@ -689,7 +664,6 @@ window.nav=function(panel,btn){
   if(panel==="chat"){
     $("content-area").style.display="none";
     $("panel-chat").style.display="block";
-    // mobile: show list, hide conv
     if(window.innerWidth<=640){$("chat-list-col").classList.remove("hide-mobile");$("chat-conv-col").classList.add("hide-mobile");}
     return;
   }
@@ -707,17 +681,29 @@ window.backToList=()=>{
   $("chat-conv-col").classList.add("hide-mobile");
 };
 
-// AUTH
+// ===== AUTH =====
 window.doLogin=async()=>{
   const lid=$("l-id").value.trim(),pass=$("l-pass").value;
   const btn=$("login-btn"),err=$("login-err");err.style.display="none";
   if(!lid||!pass){err.textContent="กรอก Login ID และรหัสผ่าน";err.style.display="block";return;}
   btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';
+  // ใช้ loginId ต่อ domain เหมือนกับที่ worker สร้าง
   const email=lid.toLowerCase().replace(/\s+/g,"")+EDOMAIN;
-  try{await signInWithEmailAndPassword(auth,email,pass);}
-  catch(e){err.textContent=e.code==="auth/invalid-credential"?"Login ID หรือรหัสผ่านไม่ถูกต้อง":"เกิดข้อผิดพลาด";err.style.display="block";btn.disabled=false;btn.textContent="เข้าสู่ระบบ →";}
+  try{
+    await signInWithEmailAndPassword(auth,email,pass);
+  }catch(e){
+    const msg=e.code==="auth/invalid-credential"||e.code==="auth/user-not-found"||e.code==="auth/wrong-password"
+      ?"Login ID หรือรหัสผ่านไม่ถูกต้อง"
+      :"เกิดข้อผิดพลาด: "+e.message;
+    err.textContent=msg;err.style.display="block";
+    btn.disabled=false;btn.textContent="เข้าสู่ระบบ →";
+  }
 };
-window.doLogout=async()=>{if(ME)await update(ref(db,`users/${ME.uid}`),{online:false});await signOut(auth);};
+
+window.doLogout=async()=>{
+  if(ME)await update(ref(db,`users/${ME.uid}`),{online:false});
+  await signOut(auth);
+};
 
 onAuthStateChanged(auth,async user=>{
   if(user){
@@ -732,13 +718,12 @@ onAuthStateChanged(auth,async user=>{
     ME={uid:user.uid,email:user.email,nick:p.nick||p.loginId||user.email.split("@")[0],loginId:p.loginId||user.email.split("@")[0],role:p.role||"member",mood:p.mood||""};
     await update(ref(db,`users/${ME.uid}`),{online:true,lastSeen:Date.now()});
     showApp();
-  } else{ME=null;showLogin();}
+  }else{ME=null;showLogin();}
 });
 
 function showLogin(){$("login-screen").style.display="flex";$("app-screen").style.display="none";$("bottom-nav").style.display="none";$("login-btn").disabled=false;$("login-btn").textContent="เข้าสู่ระบบ →";$("l-pass").value="";}
 function showApp(){$("login-screen").style.display="none";$("app-screen").style.display="flex";initApp();}
 
-// INIT
 function initApp(){
   setAv($("sb-av"),ME.nick,ME.uid,32,13);
   $("sb-name").textContent=ME.nick;$("sb-role-badge").textContent=ME.role;
@@ -748,25 +733,16 @@ function initApp(){
   nav("dashboard",document.querySelector(".sb-item.active"));
 }
 
-// EMOJI GRIDS
 function initEmojiGrids(){
-  const render=(id,type)=>{
-    $(id).innerHTML=EMOJIS.map(e=>`<div class="emoji-opt" data-e="${e}" onclick="toggleEmoji(this,'${e}','${type}')">${e}</div>`).join("");
-  };
+  const render=(id,type)=>{$(id).innerHTML=EMOJIS.map(e=>`<div class="emoji-opt" data-e="${e}" onclick="toggleEmoji(this,'${e}','${type}')">${e}</div>`).join("");};
   render("nc-emoji-grid","nc");render("join-emoji-grid","join");
 }
 window.toggleEmoji=function(el,emoji,type){
   el.classList.toggle("sel");
-  if(type==="nc"){
-    ncEmojis=ncEmojis.includes(emoji)?ncEmojis.filter(x=>x!==emoji):[...ncEmojis,emoji];
-    $("nc-emoji-display").innerHTML=ncEmojis.map(e=>`<span>${e}</span>`).join("");
-  } else {
-    joinEmojis=joinEmojis.includes(emoji)?joinEmojis.filter(x=>x!==emoji):[...joinEmojis,emoji];
-    $("join-emoji-display").innerHTML=joinEmojis.map(e=>`<span>${e}</span>`).join("");
-  }
+  if(type==="nc"){ncEmojis=ncEmojis.includes(emoji)?ncEmojis.filter(x=>x!==emoji):[...ncEmojis,emoji];$("nc-emoji-display").innerHTML=ncEmojis.map(e=>`<span>${e}</span>`).join("");}
+  else{joinEmojis=joinEmojis.includes(emoji)?joinEmojis.filter(x=>x!==emoji):[...joinEmojis,emoji];$("join-emoji-display").innerHTML=joinEmojis.map(e=>`<span>${e}</span>`).join("");}
 };
 
-// MOOD PICKER
 function initMoodPicker(){
   $("my-mood-picker").innerHTML=MOODS.map(m=>`<div class="mood-opt${ME.mood===m?" sel":""}" onclick="setMood('${m}')">${m}</div>`).join("");
   updateMoodDisp();
@@ -778,7 +754,6 @@ window.setMood=async m=>{
 };
 function updateMoodDisp(){$("sb-mood-disp").textContent=(ME.role||"member")+(ME.mood?" · "+ME.mood:"");}
 
-// MEMBERS LISTENER
 function listenMembers(){
   onValue(ref(db,"users"),snap=>{
     membersCache=snap.val()||{};
@@ -802,9 +777,7 @@ function listenTasks(){onValue(ref(db,"tasks"),snap=>{tasksCache=snap.val()||{};
 function listenNotes(){onValue(ref(db,"notes"),snap=>{notesCache=snap.val()||{};if(currentPanel==="notes")renderNotes();});}
 function listenFiles(){onValue(ref(db,"files"),snap=>{filesCache=snap.val()||{};$("s-files").textContent=Object.keys(filesCache).length;if(currentPanel==="files")renderFiles();});}
 
-// RENDER CHAT LIST
 function renderChatList(){
-  // channels
   const myChannels=Object.entries(channelsCache).filter(([id,c])=>c.members?.[ME.uid]||(c.locked===undefined));
   $("cl-channels").innerHTML=myChannels.map(([id,c])=>{
     const un=unreadMap["ch_"+id]||0,isLocked=c.locked&&!c.members?.[ME.uid];
@@ -815,7 +788,6 @@ function renderChatList(){
       ${un?`<span class="cl-badge">${un}</span>`:""}
     </div>`;
   }).join("")||`<div style="padding:10px;font-size:12px;color:var(--t3)">ยังไม่มีช่อง</div>`;
-  // DMs
   $("cl-dms").innerHTML=Object.entries(membersCache).filter(([uid])=>uid!==ME.uid).map(([uid,m])=>{
     const c=getColor(uid),un=unreadMap["dm_"+uid]||0;
     return`<div class="cl-item${curRoomId==="dm_"+uid?" active":""}" onclick="openDM('${uid}')" style="position:relative">
@@ -829,7 +801,6 @@ function renderChatList(){
   }).join("")||`<div style="padding:10px;font-size:12px;color:var(--t3)">ยังไม่มีสมาชิก</div>`;
 }
 
-// OPEN CHANNEL / DM
 window.openChannel=function(id){
   const c=channelsCache[id];if(!c)return;
   curRoomId=id;curRoomType="channel";curDMUid=null;
@@ -845,6 +816,7 @@ window.openChannel=function(id){
   else $("chat-conv-col").classList.remove("hide-mobile");
   nav("chat",null);
 };
+
 window.openDM=function(uid){
   const m=membersCache[uid]||{},c=getColor(uid);
   curRoomId="dm_"+uid;curRoomType="dm";curDMUid=uid;
@@ -859,7 +831,6 @@ window.openDM=function(uid){
   nav("chat",null);
 };
 
-// MEMBERS COL
 window.toggleMembersCol=()=>{membersPanelOpen=!membersPanelOpen;$("members-col").classList.toggle("hidden",!membersPanelOpen);if(membersPanelOpen)renderMembersCol();};
 function renderMembersCol(){
   let uids=[];
@@ -868,7 +839,6 @@ function renderMembersCol(){
   $("members-col-list").innerHTML=uids.map(uid=>{const m=membersCache[uid]||{},c=getColor(uid);return`<div style="display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:8px"><div class="av" style="width:30px;height:30px;font-size:11px;background:${c}22;color:${c}">${getInitial(m.nick||"?")}</div><div><div style="font-size:13px;font-weight:600">${m.nick||"?"} ${m.mood||""}</div><div style="font-size:10px;color:${m.online?"var(--teal)":"var(--t3)"};font-family:var(--mono)">● ${m.online?"online":"offline"}</div></div></div>`;}).join("")||`<div style="padding:12px;font-size:13px;color:var(--t3)">ไม่มีสมาชิก</div>`;
 }
 
-// UNREAD
 function markSeen(key){lastSeenTs[key]=Date.now();unreadMap[key]=0;updateBadges();}
 function updateBadges(){
   renderChatList();
@@ -876,10 +846,8 @@ function updateBadges(){
   [$("bn-chat-badge"),$("chat-badge-sb")].forEach(el=>{el.style.display=total>0?"":"none";if(total>0)el.textContent=total;});
 }
 
-// MSG PATH
 function msgPath(){return curRoomType==="channel"?`channels/${curRoomId}/messages`:`dms/${[ME.uid,curDMUid].sort().join("_")}/messages`;}
 
-// LOAD MESSAGES
 function loadMessages(path,roomKey){
   const area=$("msgs-area");area.innerHTML="";
   if(chatRef){off(chatRef);chatRef=null;}
@@ -892,7 +860,6 @@ function renderMsgs(msgs,path){
   const area=$("msgs-area");const wasBottom=area.scrollHeight-area.scrollTop-area.clientHeight<80;
   const sorted=Object.entries(msgs).sort((a,b)=>a[1].ts-b[1].ts);
   const now=Date.now();
-  // auto expire disappearing msgs
   sorted.forEach(([id,m])=>{if(m.disappearsAt&&now>m.disappearsAt&&!m.deleted)update(ref(db,`${path}/${id}`),{deleted:true,text:"",files:null,drawing:null});});
   let html="",prevTs=0,prevUid="";
   sorted.forEach(([id,m])=>{
@@ -922,11 +889,9 @@ function renderMsgs(msgs,path){
   });
   area.innerHTML=html||`<div class="empty" style="margin:auto"><div class="empty-ico">💬</div>ยังไม่มีข้อความ</div>`;
   if(wasBottom)area.scrollTop=area.scrollHeight;
-  // mark read
   sorted.filter(([,m])=>m.uid!==ME.uid&&!m.readBy?.[ME.uid]).slice(-10).forEach(([id])=>update(ref(db,`${path}/${id}/readBy`),{[ME.uid]:true}));
 }
 
-// POLL HTML
 function renderPollHtml(msgId,poll,isMe){
   const total=Math.max(Object.values(poll.votes||{}).reduce((s,v)=>s+v,0),1);
   const myVote=poll.voters?.[ME.uid];
@@ -940,10 +905,8 @@ window.votePoll=async(msgId,optIdx)=>{
   await update(ref(db),{[`${p}/${msgId}/poll/voters/${ME.uid}`]:optIdx,[`${p}/${msgId}/poll/votes/${optIdx}`]:(m.poll.votes?.[optIdx]||0)+1});
 };
 
-// DISAPPEAR
 window.setDisappear=(msgId,path)=>showConfirm("⏰","ข้อความหายอัตโนมัติ?","ข้อความนี้จะหายไปใน 24 ชั่วโมง","","ตั้งเวลา","btn-blue",()=>update(ref(db,`${path}/${msgId}`),{disappearsAt:Date.now()+86400000}).then(()=>showToast("ตั้งเวลาแล้ว ⏰")));
 
-// SEND
 window.chatKeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMsg();}};
 window.autoResize=el=>{el.style.height="auto";el.style.height=Math.min(Math.max(el.scrollHeight,22),110)+"px";};
 window.sendMsg=async()=>{
@@ -960,11 +923,10 @@ window.sendMsg=async()=>{
   inp.value="";inp.style.height="auto";pendingFiles=[];$("upload-preview").innerHTML="";$("upload-preview").style.display="none";
   btn.disabled=false;
 };
-window.startEdit=(id,text,path)=>{editingMsgId=id;const inp=$("chat-inp");inp.value=text;inp.focus();autoResize(inp);$("edit-bar").classList.add("show");$("edit-bar-txt").textContent=`✏️ แก้ไข: "${text.slice(0,30)}"`};
+window.startEdit=(id,text,path)=>{editingMsgId=id;const inp=$("chat-inp");inp.value=text;inp.focus();autoResize(inp);$("edit-bar").classList.add("show");$("edit-bar-txt").textContent=`✏️ แก้ไข: "${text.slice(0,30)}"`;};
 window.cancelEdit=()=>{editingMsgId=null;$("chat-inp").value="";$("chat-inp").style.height="auto";$("edit-bar").classList.remove("show");};
 window.confirmDelMsg=(id,path)=>showConfirm("🗑","ลบข้อความ?","ต้องการลบข้อความนี้?","","ลบเลย","btn-danger",()=>update(ref(db,`${path}/${id}`),{deleted:true,text:"",files:null,drawing:null}));
 
-// POLL
 window.openPollModal=()=>{[$("poll-o1"),$("poll-o2"),$("poll-o3"),$("poll-o4"),$("poll-q")].forEach(x=>x.value="");openModal("modal-poll");};
 window.sendPoll=async()=>{
   const q=$("poll-q").value.trim();if(!q){showToast("ใส่คำถามด้วย","warn");return;}
@@ -974,7 +936,6 @@ window.sendPoll=async()=>{
   closeModal("modal-poll");
 };
 
-// DRAW
 window.openDrawModal=()=>{
   openModal("modal-draw");
   setTimeout(()=>{
@@ -997,7 +958,6 @@ window.sendDrawing=async()=>{
   await push(ref(db,msgPath()),{uid:ME.uid,nick:ME.nick,ts:Date.now(),readBy:{[ME.uid]:true},drawing:r.url});
 };
 
-// LOCATION
 window.shareLocation=()=>{
   locationData=null;$("loc-preview").innerHTML=`<div style="font-size:13px;color:var(--t3)">กำลังโหลดตำแหน่ง...</div>`;$("loc-addr").textContent="";openModal("modal-location");
   navigator.geolocation.getCurrentPosition(pos=>{
@@ -1009,7 +969,6 @@ window.shareLocation=()=>{
 };
 window.sendLocation=async()=>{if(!locationData){showToast("รอโหลดตำแหน่งก่อน","warn");return;}closeModal("modal-location");await push(ref(db,msgPath()),{uid:ME.uid,nick:ME.nick,ts:Date.now(),readBy:{[ME.uid]:true},location:locationData});};
 
-// FILE ATTACH
 window.handleChatFile=e=>[...e.target.files].forEach(addPendingFile);
 function addPendingFile(file){
   const idx=pendingFiles.length;pendingFiles.push(file);
@@ -1021,7 +980,6 @@ function addPendingFile(file){
   item.appendChild(rm);prev.appendChild(item);
 }
 
-// CLOUDINARY
 async function uploadCloud(file,forChat=false){
   if(file.size>100*1024*1024){showToast("ไฟล์ใหญ่เกิน 100MB","err");return null;}
   const fd=new FormData();fd.append("file",file);fd.append("upload_preset",PRESET);fd.append("folder",forChat?"chat":"files");
@@ -1033,7 +991,6 @@ async function uploadCloud(file,forChat=false){
   }catch(e){showToast("Upload ล้มเหลว","err");return null;}
 }
 
-// CHANNEL MANAGEMENT
 window.openNewChannelModal=()=>{
   ncLocked=false;ncEmojis=[];
   $("nc-name").value="";$("nc-desc").value="";
@@ -1091,7 +1048,6 @@ window.confirmDeleteRoom=()=>{
   });
 };
 
-// TASKS
 function updateTaskStats(){
   const all=Object.values(tasksCache),p=all.filter(x=>!x.done).length;
   $("s-tasks").textContent=all.length;$("s-pending").textContent=p;
@@ -1105,7 +1061,6 @@ function renderTasks(){
   $("task-list").innerHTML=tasks.length?tasks.map(([id,t])=>`<div class="task-item fade-up"><div class="prio" style="background:${t.prio==="high"?"var(--rose)":t.prio==="mid"?"var(--amber)":"var(--teal)"}"></div><div class="task-chk${t.done?" done":""}" onclick="toggleTask('${id}',${t.done})">${t.done?"✓":""}</div><div style="flex:1;font-size:13px;${t.done?"text-decoration:line-through;color:var(--t3)":""}">${esc(t.text)}</div><span style="font-size:10px;color:var(--t2);font-family:var(--mono)">@${t.byNick||"?"}</span><button class="del-btn" onclick="confirmDeleteTask('${id}')">×</button></div>`).join(""):`<div class="empty"><div class="empty-ico">✅</div>ยังไม่มี Tasks</div>`;
 }
 
-// NOTES
 function renderNotes(){
   const notes=Object.entries(notesCache).sort((a,b)=>b[1].ts-a[1].ts);
   $("notes-grid").innerHTML=notes.length?notes.map(([id,n])=>`<div class="note-card fade-up" onclick="openNote('${id}')"><div style="font-size:13px;font-weight:700;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(n.title||"ไม่มีชื่อ")}</div><div style="font-size:12px;color:var(--t2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">${esc(n.body||"")}</div><div style="font-size:10px;color:var(--t3);margin-top:8px;font-family:var(--mono)">${fmtDate(n.ts)} · @${n.byNick||"?"}</div></div>`).join(""):`<div class="empty"><div class="empty-ico">📝</div>ยังไม่มี Notes</div>`;
@@ -1115,7 +1070,6 @@ window.closeNote=()=>{$("notes-list").style.display="block";$("notes-editor").st
 window.saveNote=async()=>{const d={title:$("note-title").value.trim()||"ไม่มีชื่อ",body:$("note-body").value.trim(),by:ME.uid,byNick:ME.nick,ts:Date.now()};if(noteEditing)await update(ref(db,`notes/${noteEditing}`),d);else await push(ref(db,"notes"),d);closeNote();showToast("บันทึก Note แล้ว ✅");};
 window.confirmDeleteNote=()=>showConfirm("🗑","ลบ Note?","ต้องการลบ Note นี้?","","ลบเลย","btn-danger",()=>{remove(ref(db,`notes/${noteEditing}`));closeNote();showToast("ลบ Note แล้ว");});
 
-// FILES
 window.handleFileDrop=e=>{e.preventDefault();$("drop-zone").classList.remove("over");[...e.dataTransfer.files].forEach(uploadFile);};
 window.handleFileUpload=e=>[...e.target.files].forEach(uploadFile);
 async function uploadFile(file){
@@ -1133,11 +1087,10 @@ function renderFiles(){
   $("storage-fill").style.width="5%";$("storage-text").textContent=`${files.length} ไฟล์`;
 }
 
-// ADMIN
 function renderAdmin(){
   $("admin-members-grid").innerHTML=Object.entries(membersCache).map(([uid,m])=>{
     const c=getColor(uid);
-    return`<div class="member-card"><div class="av m-av" style="width:48px;height:48px;font-size:18px;background:${c}22;color:${c};margin:0 auto 10px">${getInitial(m.nick||"?")}</div><div style="font-size:14px;font-weight:700">${m.nick||"?"} ${m.mood||""}</div><div style="font-size:10px;color:var(--t3);font-family:var(--mono);margin:4px 0 8px">${m.loginId||""}<br>${m.role||"member"} · ${m.online?"🟢 online":"⚫ offline"}</div><div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="openEditMember('${uid}','${m.nick||""}','${m.role||"member"}')">✏️ แก้ไข</button>${uid!==ME.uid?`<button class="btn btn-danger btn-sm" onclick="confirmDeleteMember('${uid}','${m.nick||"?"}')">🗑</button>`:""}</div></div>`;
+    return`<div class="member-card"><div class="av" style="width:48px;height:48px;font-size:18px;background:${c}22;color:${c};margin:0 auto 10px">${getInitial(m.nick||"?")}</div><div style="font-size:14px;font-weight:700">${m.nick||"?"} ${m.mood||""}</div><div style="font-size:10px;color:var(--t3);font-family:var(--mono);margin:4px 0 8px">${m.loginId||""}<br>${m.role||"member"} · ${m.online?"🟢 online":"⚫ offline"}</div><div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="openEditMember('${uid}','${m.nick||""}','${m.role||"member"}')">✏️ แก้ไข</button>${uid!==ME.uid?`<button class="btn btn-danger btn-sm" onclick="confirmDeleteMember('${uid}','${m.nick||"?"}')">🗑</button>`:""}</div></div>`;
   }).join("")||`<div class="empty"><div class="empty-ico">👥</div>ไม่มีสมาชิก</div>`;
 }
 window.openEditMember=(uid,nick,role)=>{$("em-uid").value=uid;$("em-nick").value=nick;$("em-role").value=role;openModal("modal-edit-member");};
@@ -1145,6 +1098,8 @@ window.saveMemberEdit=async()=>{const uid=$("em-uid").value;await update(ref(db,
 window.confirmDeleteMember=(uid,nick)=>showConfirm("🗑",`ลบ @${nick}?`,`ต้องการลบ "${nick}" จริงมั้ย?`,"account จะถูกลบออกจากระบบ","ลบสมาชิก","btn-danger",async()=>{
   try{await workerCall("/deleteUser",{uid});showToast(`ลบ @${nick} แล้ว`);}catch(e){showToast("เกิดข้อผิดพลาด: "+e.message,"err");}
 });
+
+// ===== CREATE ACCOUNT - ส่ง loginId ไปด้วยเสมอ =====
 window.createAccount=async()=>{
   const loginId=$("new-loginid").value.trim(),nick=$("new-nick").value.trim(),role=$("new-role").value,pass=$("new-pass").value,pass2=$("new-pass2").value;
   if(!loginId||!nick||!pass){showToast("กรอกข้อมูลให้ครบ","warn");return;}
@@ -1152,6 +1107,7 @@ window.createAccount=async()=>{
   if(pass!==pass2){showToast("รหัสผ่านไม่ตรงกัน","err");return;}
   const btn=document.querySelector("#panel-admin .btn-blue");btn.disabled=true;btn.textContent="กำลังสร้าง...";
   try{
+    // ส่ง loginId แยกออกมาชัดเจน
     await workerCall("/createUser",{loginId,nick,role,pass});
     showToast(`✅ สร้าง @${nick} (Login: ${loginId}) แล้ว`);
     [$("new-loginid"),$("new-nick"),$("new-pass"),$("new-pass2")].forEach(x=>x.value="");
@@ -1159,7 +1115,6 @@ window.createAccount=async()=>{
   finally{btn.disabled=false;btn.textContent="สร้าง Account →";}
 };
 
-// PROFILE
 function renderProfile(){
   setAv($("profile-av"),ME.nick,ME.uid,58,22);
   $("prof-nick-disp").textContent=ME.nick;$("prof-role-disp").textContent=ME.role;$("prof-loginid-disp").textContent=ME.loginId||"(ไม่ทราบ)";
@@ -1169,7 +1124,6 @@ window.saveNick=async()=>{
   const nick=$("profile-nick-inp").value.trim();if(!nick){showToast("ใส่ชื่อเล่นด้วย","warn");return;}
   ME.nick=nick;await update(ref(db,`users/${ME.uid}`),{nick});
   $("sb-name").textContent=nick;$("prof-nick-disp").textContent=nick;setAv($("sb-av"),nick,ME.uid,32,13);
-  // update all existing messages
   const updates={};
   const chSnap=await get(ref(db,"channels"));
   Object.entries(chSnap.val()||{}).forEach(([cid,ch])=>Object.entries(ch.messages||{}).forEach(([mid,m])=>{if(m.uid===ME.uid)updates[`channels/${cid}/messages/${mid}/nick`]=nick;}));
@@ -1186,14 +1140,12 @@ window.changePw=async()=>{
   catch(e){showToast("เกิดข้อผิดพลาด: "+e.message,"err");}
 };
 
-// DASHBOARD
 function refreshDashboard(){
   const tasks=Object.entries(tasksCache).sort((a,b)=>b[1].ts-a[1].ts).slice(0,5);
   $("dash-tasks").innerHTML=tasks.length?tasks.map(([id,t])=>`<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)"><div class="prio" style="background:${t.prio==="high"?"var(--rose)":t.prio==="mid"?"var(--amber)":"var(--teal)"}"></div><div style="flex:1;font-size:13px;${t.done?"text-decoration:line-through;color:var(--t3)":""}">${esc(t.text)}</div>${t.done?`<span class="tag tag-teal">✓</span>`:`<span class="tag tag-rose">รอ</span>`}</div>`).join(""):`<div class="empty"><div class="empty-ico">✅</div>ยังไม่มี Tasks</div>`;
   $("dash-members").innerHTML=Object.entries(membersCache).map(([uid,m])=>{const c=getColor(uid);return`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)"><div class="av" style="width:26px;height:26px;font-size:10px;background:${c}22;color:${c}">${getInitial(m.nick||"?")}</div><div style="flex:1;font-size:13px;font-weight:600">${m.nick||"?"} ${m.mood||""}</div><div style="width:7px;height:7px;border-radius:50%;background:${m.online?"var(--teal)":"var(--s3)"}"></div></div>`;}).join("")||`<div class="empty"><div class="empty-ico">👥</div>ยังไม่มีสมาชิก</div>`;
 }
 
-// LIGHTBOX
 window.openLB=(src,type)=>{
   $("lightbox").classList.add("show");
   if(type==="img"){$("lb-img").src=src;$("lb-img").style.display="block";$("lb-vid").style.display="none";}
@@ -1201,7 +1153,7 @@ window.openLB=(src,type)=>{
 };
 window.closeLightbox=()=>{$("lightbox").classList.remove("show");$("lb-vid").pause?.();};
 
-// DISABLE ZOOM on double tap
 let lastTap=0;document.addEventListener("touchend",e=>{const now=Date.now();if(now-lastTap<350)e.preventDefault();lastTap=now;},{passive:false});
 </script>
-</body></html>
+</body>
+</html>
