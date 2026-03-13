@@ -971,16 +971,17 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 /* Swipe wrapper */
 .song-swipe-wrap{position:relative;border-radius:var(--r2);overflow:hidden;flex-shrink:0}
 .song-delete-bg{
-  position:absolute;inset:0;right:0;
+  position:absolute;top:0;right:0;bottom:0;left:0;
   background:linear-gradient(135deg,#e8304a,#c0192b);
   display:flex;align-items:center;justify-content:flex-end;
   padding-right:22px;gap:8px;border-radius:var(--r2);
   pointer-events:none;
+  z-index:0;/* behind the card */
 }
 .song-delete-bg svg{width:22px;height:22px;color:white;opacity:0.9}
 .song-delete-bg span{color:white;font-size:13px;font-weight:700;opacity:0.9}
 
-/* Song card — new large cover design */
+/* Song card — sits ON TOP of delete bg */
 .song-card{
   display:flex;align-items:center;gap:14px;
   padding:12px 14px 12px 12px;
@@ -988,10 +989,12 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   border:1px solid var(--glass-border);
   border-radius:var(--r2);
   transition:transform .22s cubic-bezier(.25,0,.25,1),border-color .15s,background .15s;
-  position:relative;overflow:hidden;
+  position:relative;
+  z-index:1;/* always on top */
   will-change:transform;
-  cursor:grab;
+  cursor:default;
   touch-action:pan-y;
+  overflow:hidden;
 }
 .song-card::before{
   content:'';position:absolute;top:0;left:15%;right:15%;height:1px;
@@ -1141,11 +1144,23 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   .chat-conv-col{border-radius:var(--r)}
   .chat-back{display:block !important}
   .chat-wrap{gap:0}
-  #panel-chat{display:none;height:calc(100vh - 68px - var(--sat) - var(--sab));flex:1}
-  #panel-chat.active{display:flex;flex-direction:column}
-  #panel-chat.active .chat-wrap{flex:1;min-height:0}
+  /* Chat panel: fill full viewport minus topbar only (no bottom nav padding) */
+  #panel-chat{display:none;flex:1}
+  #panel-chat.active{
+    display:flex;flex-direction:column;
+    height:calc(100vh - var(--sat));
+    margin-bottom:0;
+  }
+  #panel-chat.active .chat-wrap{flex:1;min-height:0;display:flex}
   #panel-chat.active .chat-conv-col{flex:1;display:flex;flex-direction:column;min-height:0}
-  #panel-chat.active .msgs-area{flex:1;min-height:0}
+  #panel-chat.active .msgs-area{flex:1;min-height:0;overflow-y:auto}
+  /* Hide topbar and bottom-nav when chat conv is open on mobile */
+  body.chat-open .topbar{display:none}
+  body.chat-open .bottom-nav{display:none}
+  body.chat-open{padding-bottom:0}
+  body.chat-open #app-screen{height:100vh}
+  body.chat-open .app-body{padding:0;height:100vh}
+  body.chat-open .main{height:100vh;display:flex;flex-direction:column}
   .profile-card{max-width:100%}
   .notif-panel{left:0;right:0;top:0;bottom:0;border-radius:0;width:auto}
   .cal-day{min-height:44px}
@@ -2217,7 +2232,8 @@ window.nav=function(panel,btn){
     contentArea.style.display="";
     const p=$("panel-"+panel);if(p){p.classList.add("active");}
     currentPanel=panel;
-    // restore bottom nav when leaving chat
+    // restore bottom nav and remove chat-open when leaving chat
+    document.body.classList.remove("chat-open");
     if(window.innerWidth<=640)$("bottom-nav").style.display="grid";
   }
   document.querySelectorAll(".sb-item").forEach(x=>x.classList.remove("active"));
@@ -2355,7 +2371,7 @@ window.openChannel=function(id){
   if(window.innerWidth<=640){
     $("chat-list-col").classList.add("hide-mobile");
     $("chat-conv-col").classList.remove("hide-mobile");
-    $("bottom-nav").style.display="none";
+    document.body.classList.add("chat-open");
   }
 };
 window.openDM=function(uid){
@@ -2370,14 +2386,13 @@ window.openDM=function(uid){
   if(window.innerWidth<=640){
     $("chat-list-col").classList.add("hide-mobile");
     $("chat-conv-col").classList.remove("hide-mobile");
-    $("bottom-nav").style.display="none";
+    document.body.classList.add("chat-open");
   }
 };
 window.showChatList=()=>{
   $("chat-list-col").classList.remove("hide-mobile");
   $("chat-conv-col").classList.add("hide-mobile");
-  // restore bottom nav when back to channel list
-  if(window.innerWidth<=640)$("bottom-nav").style.display="grid";
+  document.body.classList.remove("chat-open");
 };
 window.toggleMembersCol=()=>{membersPanelOpen=!membersPanelOpen;const mc=$("members-col"),ov=$("members-col-overlay");mc.classList.toggle("open",membersPanelOpen);ov.classList.toggle("show",membersPanelOpen);if(membersPanelOpen)renderMembersCol();};
 function renderMembersCol(){
@@ -3185,24 +3200,43 @@ window.fetchSongMeta=async()=>{
     if(ytId){
       type="YouTube";
       thumb="https://img.youtube.com/vi/"+ytId+"/mqdefault.jpg";
-      // Use oEmbed to get title
       const oEmbedUrl="https://www.youtube.com/oembed?url="+encodeURIComponent("https://www.youtube.com/watch?v="+ytId)+"&format=json";
       const res=await fetch(oEmbedUrl);
       if(res.ok){
         const data=await res.json();
         const raw=data.title||"";
-        // Try to split "Artist - Title" pattern
-        if(raw.includes(" - ")){
-          const parts=raw.split(" - ");
-          artist=parts[0].trim();
-          title=parts.slice(1).join(" - ").trim();
+        const channelName=(data.author_name||"").replace(/ - Topic$/i,"").trim();
+
+        // Clean noise tags from raw title first
+        const cleanRaw=raw
+          .replace(/\s*[\[\(]Official.*?[\]\)]/gi,"")
+          .replace(/\s*[\[\(]Lyrics?[\]\)]/gi,"")
+          .replace(/\s*[\[\(]Audio[\]\)]/gi,"")
+          .replace(/\s*[\[\(]MV[\]\)]/gi,"")
+          .replace(/\s*\|Official.*?\|/gi,"")
+          .replace(/\s*Official Music Video/gi,"")
+          .replace(/\s*Music Video/gi,"")
+          .replace(/\s*Official MV/gi,"")
+          .replace(/\s*Official Video/gi,"")
+          .trim();
+
+        if(cleanRaw.includes(" - ")){
+          // Format: "Artist - Song Title" → split at first " - "
+          const idx=cleanRaw.indexOf(" - ");
+          artist=cleanRaw.substring(0,idx).trim();
+          title=cleanRaw.substring(idx+3).trim();
+        } else if(cleanRaw.includes(" : ")){
+          const idx=cleanRaw.indexOf(" : ");
+          artist=cleanRaw.substring(0,idx).trim();
+          title=cleanRaw.substring(idx+3).trim();
         } else {
-          title=raw;
-          artist=data.author_name||"";
+          // No separator — title is the full video name, artist = channel name
+          title=cleanRaw;
+          artist=channelName;
         }
-        // Clean common suffixes
-        title=title.replace(/\s*\(Official.*?\)/gi,"").replace(/\s*\[Official.*?\]/gi,"").replace(/\s*\(Lyrics?\)/gi,"").replace(/\s*\[Lyrics?\]/gi,"").replace(/\s*\(Audio\)/gi,"").replace(/\s*\(MV\)/gi,"").replace(/\s*Official Music Video/gi,"").replace(/\s*Music Video/gi,"").trim();
-        artist=artist.replace(/ - Topic$/i,"").trim();
+        // Final clean
+        title=title.replace(/\s*[\[\(].*?[\]\)]/g,"").trim()||cleanRaw;
+        artist=artist||channelName;
       }
     } else if(isSpotify){
       type="Spotify";
