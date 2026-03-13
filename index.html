@@ -1454,13 +1454,13 @@ window.openEditMember=(uid,nick,role)=>{ $('edit-uid').value=uid; $('edit-nick')
 window.saveMemberEdit=async()=>{ await update(ref(db,`users/${$('edit-uid').value}`),{nick:$('edit-nick').value.trim(),role:$('edit-role').value}); closeModal('modal-edit-member'); showToast('อัปเดตแล้ว ✅'); };
 window.openResetPw=(uid)=>{ $('reset-pw-uid').value=uid; $('reset-pw-val').value=''; $('reset-pw-val2').value=''; openModal('modal-reset-pw'); };
 const WORKER = "https://secretteam-api.ou415201.workers.dev";
+const ADMIN_SECRET = "ST@dm!n2026";
 
 async function workerCall(path, data) {
-  const idToken = await auth.currentUser.getIdToken();
   const res = await fetch(WORKER + path, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...data, idToken }),
+    body: JSON.stringify({ ...data, adminSecret: ADMIN_SECRET }),
   });
   const json = await res.json();
   if (!res.ok || json.error) throw new Error(json.error || "เกิดข้อผิดพลาด");
