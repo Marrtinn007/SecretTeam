@@ -278,14 +278,21 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 .tag-rose{background:#fb71851a;color:var(--rose);border:1px solid #fb718530}
 .tag-teal{background:#2dd4bf14;color:var(--teal);border:1px solid #2dd4bf30}
 
+/* ATTACH MENU POPUP */
+.attach-menu{position:absolute;bottom:calc(100% + 8px);left:0;background:var(--s1);border:1px solid var(--border2);border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:4px;z-index:100;min-width:160px;box-shadow:0 8px 32px #00000060;opacity:0;transform:translateY(8px) scale(.97);pointer-events:none;transition:all .18s cubic-bezier(.4,0,.2,1)}
+.attach-menu.open{opacity:1;transform:translateY(0) scale(1);pointer-events:all}
+.attach-menu-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;border:none;background:none;color:var(--text);font-size:13px;cursor:pointer;transition:background .12s;text-align:left;width:100%}
+.attach-menu-item:hover,.attach-menu-item:active{background:var(--s2)}
+.attach-menu-item .ico{font-size:18px;flex-shrink:0}
+.attach-wrap{position:relative}
+
 /* RESPONSIVE */
 @media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.dash-grid{grid-template-columns:1fr}.admin-grid{grid-template-columns:repeat(2,1fr)}.notes-grid{grid-template-columns:repeat(2,1fr)}.members-col{display:none}}
 @media(max-width:640px){
   body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
-  .sidebar{position:fixed;top:0;left:0;bottom:0;height:100%;transform:translateX(-100%);z-index:51;padding-top:env(safe-area-inset-top,0px)}
-  .sidebar.open{transform:translateX(0)}
-  .sidebar-overlay.show{display:block}
-  .hamburger{display:flex}
+  .sidebar{display:none !important}
+  .sidebar-overlay{display:none !important}
+  .hamburger{display:none !important}
   .bottom-nav{display:grid}
   .content{padding:12px}
   .stats-grid{grid-template-columns:repeat(2,1fr);gap:8px}
@@ -438,6 +445,22 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
             <div class="form-group"><label>ยืนยัน</label><input type="password" class="inp" id="confirm-pw" style="width:100%"></div>
             <button class="btn btn-ghost btn-sm" onclick="changePw()">เปลี่ยนรหัสผ่าน</button>
           </div>
+          <!-- Admin section - แสดงเฉพาะ admin บนมือถือ -->
+          <div id="profile-admin-section" style="display:none;margin-bottom:16px">
+            <div style="font-size:13px;font-weight:800;color:var(--rose);margin-bottom:10px;display:flex;align-items:center;gap:6px">👑 จัดการสมาชิก <span class="tag tag-rose">Admin</span></div>
+            <div class="admin-grid" id="profile-admin-members-grid"></div>
+            <div class="card" style="margin-top:12px">
+              <div style="font-size:14px;font-weight:700;margin-bottom:14px">➕ สร้าง Account ใหม่</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <div class="form-group"><label>Login ID</label><input id="p-new-loginid" class="inp" placeholder="เช่น nong01" style="width:100%" autocapitalize="none"></div>
+                <div class="form-group"><label>ชื่อเล่น</label><input id="p-new-nick" class="inp" placeholder="เช่น น้อง" style="width:100%"></div>
+                <div class="form-group"><label>บทบาท</label><select id="p-new-role" class="inp" style="width:100%"><option>member</option><option>developer</option><option>designer</option></select></div>
+                <div class="form-group"><label>รหัสผ่าน</label><input type="password" id="p-new-pass" class="inp" placeholder="6+ ตัว" style="width:100%"></div>
+                <div class="form-group" style="grid-column:1/-1"><label>ยืนยันรหัสผ่าน</label><input type="password" id="p-new-pass2" class="inp" placeholder="••••••••" style="width:100%"></div>
+              </div>
+              <button class="btn btn-blue" onclick="createAccountProfile()">สร้าง Account →</button>
+            </div>
+          </div>
           <button class="btn btn-danger btn-sm" onclick="doLogout()">🚪 ออกจากระบบ</button>
         </div>
       </div>
@@ -471,10 +494,15 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
               <div class="upload-preview" id="upload-preview" style="display:none"></div>
               <div class="chat-input-row">
                 <div class="chat-inp-box">
-                  <button class="attach-ico" onclick="document.getElementById('chat-file-inp').click()">📎</button>
-                  <button class="attach-ico" onclick="shareLocation()">📍</button>
-                  <button class="attach-ico" onclick="openDrawModal()">🎨</button>
-                  <button class="attach-ico" onclick="openPollModal()">🗳️</button>
+                  <div class="attach-wrap">
+                    <button class="attach-ico" id="attach-toggle-btn" onclick="toggleAttachMenu(event)" title="แนบไฟล์/เพิ่มเติม">➕</button>
+                    <div class="attach-menu" id="attach-menu">
+                      <button class="attach-menu-item" onclick="document.getElementById('chat-file-inp').click();closeAttachMenu()"><span class="ico">📎</span>แนบไฟล์</button>
+                      <button class="attach-menu-item" onclick="shareLocation();closeAttachMenu()"><span class="ico">📍</span>โลเคชั่น</button>
+                      <button class="attach-menu-item" onclick="openDrawModal();closeAttachMenu()"><span class="ico">🎨</span>วาดรูป</button>
+                      <button class="attach-menu-item" onclick="openPollModal();closeAttachMenu()"><span class="ico">🗳️</span>โหวต</button>
+                    </div>
+                  </div>
                   <textarea id="chat-inp" placeholder="ส่งข้อความ..." rows="1" onkeydown="chatKeydown(event)" oninput="autoResize(this)"></textarea>
                 </div>
                 <input type="file" id="chat-file-inp" multiple style="display:none" onchange="handleChatFile(event)">
@@ -647,6 +675,17 @@ async function workerCall(path,data){
   const res=await fetch(WORKER+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...data,adminSecret:ASECRET})});
   const json=await res.json();if(!res.ok||json.error)throw new Error(json.error||"เกิดข้อผิดพลาด");return json;
 }
+
+// ===== ATTACH MENU =====
+window.toggleAttachMenu=e=>{
+  e.stopPropagation();
+  const m=$("attach-menu");
+  m.classList.toggle("open");
+};
+window.closeAttachMenu=()=>$("attach-menu").classList.remove("open");
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".attach-wrap"))closeAttachMenu();
+});
 
 window.toggleSidebar=()=>{const s=$("sidebar"),o=$("sidebar-overlay");s.classList.contains("open")?(s.classList.remove("open"),o.classList.remove("show")):(s.classList.add("open"),o.classList.add("show"));};
 window.closeSidebar=()=>{$("sidebar").classList.remove("open");$("sidebar-overlay").classList.remove("show");};
@@ -1127,7 +1166,34 @@ function renderProfile(){
   setAv($("profile-av"),ME.nick,ME.uid,58,22);
   $("prof-nick-disp").textContent=ME.nick;$("prof-role-disp").textContent=ME.role;$("prof-loginid-disp").textContent=ME.loginId||"(ไม่ทราบ)";
   $("profile-nick-inp").value=ME.nick;
+  // แสดง admin section ถ้าเป็น admin
+  if(ME.role==="admin"){
+    $("profile-admin-section").style.display="block";
+    renderProfileAdminMembers();
+  } else {
+    $("profile-admin-section").style.display="none";
+  }
 }
+
+function renderProfileAdminMembers(){
+  $("profile-admin-members-grid").innerHTML=Object.entries(membersCache).map(([uid,m])=>{
+    const c=getColor(uid);
+    return`<div class="member-card"><div class="av" style="width:40px;height:40px;font-size:15px;background:${c}22;color:${c};margin:0 auto 8px">${getInitial(m.nick||"?")}</div><div style="font-size:13px;font-weight:700">${m.nick||"?"} ${m.mood||""}</div><div style="font-size:10px;color:var(--t3);font-family:var(--mono);margin:3px 0 8px">${m.loginId||""}<br>${m.role||"member"} · ${m.online?"🟢":"⚫"}</div><div style="display:flex;gap:5px;justify-content:center;flex-wrap:wrap"><button class="btn btn-ghost btn-sm" onclick="openEditMember('${uid}','${m.nick||""}','${m.role||"member"}')">✏️</button>${uid!==ME.uid?`<button class="btn btn-danger btn-sm" onclick="confirmDeleteMember('${uid}','${m.nick||"?"}')">🗑</button>`:""}</div></div>`;
+  }).join("")||`<div class="empty"><div class="empty-ico">👥</div>ไม่มีสมาชิก</div>`;
+}
+
+window.createAccountProfile=async()=>{
+  const loginId=$("p-new-loginid").value.trim(),nick=$("p-new-nick").value.trim(),role=$("p-new-role").value,pass=$("p-new-pass").value,pass2=$("p-new-pass2").value;
+  if(!loginId||!nick||!pass){showToast("กรอกข้อมูลให้ครบ","warn");return;}
+  if(pass.length<6){showToast("รหัสผ่านต้องอย่างน้อย 6 ตัว","warn");return;}
+  if(pass!==pass2){showToast("รหัสผ่านไม่ตรงกัน","err");return;}
+  try{
+    await workerCall("/createUser",{loginId,nick,role,pass});
+    showToast(`✅ สร้าง @${nick} แล้ว`);
+    [$("p-new-loginid"),$("p-new-nick"),$("p-new-pass"),$("p-new-pass2")].forEach(x=>x.value="");
+    renderProfileAdminMembers();
+  }catch(e){showToast(e.message,"err");}
+};
 window.saveNick=async()=>{
   const nick=$("profile-nick-inp").value.trim();if(!nick){showToast("ใส่ชื่อเล่นด้วย","warn");return;}
   ME.nick=nick;await update(ref(db,`users/${ME.uid}`),{nick});
@@ -1162,6 +1228,6 @@ window.openLB=(src,type)=>{
 window.closeLightbox=()=>{$("lightbox").classList.remove("show");$("lb-vid").pause?.();};
 
 let lastTap=0;document.addEventListener("touchend",e=>{const now=Date.now();if(now-lastTap<350)e.preventDefault();lastTap=now;},{passive:false});
-</script> 
+</script>
 </body>
 </html>
