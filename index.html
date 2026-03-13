@@ -812,9 +812,13 @@ window.openChannel=function(id){
   $("room-cfg-btn").dataset.roomId=id;
   markSeen("ch_"+id);loadMessages(`channels/${id}/messages`,"ch_"+id);
   renderMembersCol();renderChatList();
-  if(window.innerWidth<=640){$("chat-list-col").classList.add("hide-mobile");$("chat-conv-col").classList.remove("hide-mobile");}
-  else $("chat-conv-col").classList.remove("hide-mobile");
   nav("chat",null);
+  if(window.innerWidth<=640){
+    $("chat-list-col").classList.add("hide-mobile");
+    $("chat-conv-col").classList.remove("hide-mobile");
+  } else {
+    $("chat-conv-col").classList.remove("hide-mobile");
+  }
 };
 
 window.openDM=function(uid){
@@ -826,9 +830,13 @@ window.openDM=function(uid){
   $("room-cfg-btn").style.display="none";
   markSeen("dm_"+uid);loadMessages(`dms/${[ME.uid,uid].sort().join("_")}/messages`,"dm_"+uid);
   renderChatList();
-  if(window.innerWidth<=640){$("chat-list-col").classList.add("hide-mobile");$("chat-conv-col").classList.remove("hide-mobile");}
-  else $("chat-conv-col").classList.remove("hide-mobile");
   nav("chat",null);
+  if(window.innerWidth<=640){
+    $("chat-list-col").classList.add("hide-mobile");
+    $("chat-conv-col").classList.remove("hide-mobile");
+  } else {
+    $("chat-conv-col").classList.remove("hide-mobile");
+  }
 };
 
 window.toggleMembersCol=()=>{membersPanelOpen=!membersPanelOpen;$("members-col").classList.toggle("hidden",!membersPanelOpen);if(membersPanelOpen)renderMembersCol();};
