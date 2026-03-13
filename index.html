@@ -960,39 +960,110 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 /* ========================================
    PLAYLIST
 ======================================== */
-.playlist-tabs{display:flex;gap:4px;background:rgba(255,255,255,0.05);border-radius:var(--r3);padding:3px;margin-bottom:14px;border:1px solid var(--glass-border)}
+.playlist-tabs{display:flex;gap:4px;background:rgba(255,255,255,0.05);border-radius:var(--r3);padding:3px;margin-bottom:14px;border:1px solid var(--glass-border);flex-wrap:wrap}
 .pl-tab{padding:6px 16px;border-radius:var(--r3);font-size:12px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--t2);transition:all .15s;display:flex;align-items:center;gap:6px}
 .pl-tab svg{width:13px;height:13px}
 .pl-tab.active{background:rgba(255,255,255,0.1);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,0.2)}
-.song-card{
-  display:flex;align-items:center;gap:12px;padding:13px 14px;
-  background:var(--glass-bg);border:1px solid var(--glass-border);
-  border-radius:var(--r2);margin-bottom:8px;transition:all .15s;position:relative;overflow:hidden;
+
+/* Song list grid */
+#playlist-songs{display:flex;flex-direction:column;gap:10px}
+
+/* Swipe wrapper */
+.song-swipe-wrap{position:relative;border-radius:var(--r2);overflow:hidden;flex-shrink:0}
+.song-delete-bg{
+  position:absolute;inset:0;right:0;
+  background:linear-gradient(135deg,#e8304a,#c0192b);
+  display:flex;align-items:center;justify-content:flex-end;
+  padding-right:22px;gap:8px;border-radius:var(--r2);
+  pointer-events:none;
 }
-.song-card::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent)}
-.song-card:hover{border-color:var(--glass-border-strong);transform:translateX(2px)}
+.song-delete-bg svg{width:22px;height:22px;color:white;opacity:0.9}
+.song-delete-bg span{color:white;font-size:13px;font-weight:700;opacity:0.9}
+
+/* Song card — new large cover design */
+.song-card{
+  display:flex;align-items:center;gap:14px;
+  padding:12px 14px 12px 12px;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:var(--r2);
+  transition:transform .22s cubic-bezier(.25,0,.25,1),border-color .15s,background .15s;
+  position:relative;overflow:hidden;
+  will-change:transform;
+  cursor:grab;
+  touch-action:pan-y;
+}
+.song-card::before{
+  content:'';position:absolute;top:0;left:15%;right:15%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent);
+}
+.song-card:active{cursor:grabbing}
+.song-card.song-playing{
+  border-color:rgba(91,156,246,0.5);
+  background:linear-gradient(135deg,rgba(91,156,246,0.1),rgba(139,116,248,0.07));
+}
+.song-card.song-playing::before{background:linear-gradient(90deg,transparent,rgba(91,156,246,0.4),transparent)}
+
+/* Large square album art */
+.song-cover{
+  width:72px;height:72px;border-radius:16px;
+  flex-shrink:0;object-fit:cover;
+  box-shadow:0 6px 24px rgba(0,0,0,0.5),0 2px 8px rgba(0,0,0,0.3);
+  display:block;
+}
 .song-thumb-placeholder{
-  width:50px;height:50px;border-radius:14px;
+  width:72px;height:72px;border-radius:16px;
   background:linear-gradient(135deg,var(--blue),var(--violet));
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  box-shadow:0 4px 16px rgba(91,156,246,0.35);
+  box-shadow:0 6px 24px rgba(91,156,246,0.4);
 }
-.song-thumb-placeholder svg{width:22px;height:22px;color:white}
+.song-thumb-placeholder svg{width:28px;height:28px;color:white}
 .song-info{flex:1;min-width:0}
-.song-title{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.song-artist{font-size:11px;color:var(--t2);margin-top:2px}
-.song-meta{font-size:10px;color:var(--t3);margin-top:4px;font-family:var(--mono);display:flex;align-items:center;gap:5px}
+.song-title{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.song-artist{font-size:12px;color:var(--t2);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.song-meta{font-size:10px;color:var(--t3);margin-top:6px;font-family:var(--mono);display:flex;align-items:center;gap:5px}
+
+/* Play button — slightly larger */
 .play-btn{
-  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  width:44px;height:44px;border-radius:50%;flex-shrink:0;
   background:linear-gradient(135deg,var(--blue),var(--violet));
   border:none;color:white;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  transition:all .2s;box-shadow:0 4px 16px rgba(91,156,246,0.4);
+  transition:all .2s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 4px 20px rgba(91,156,246,0.5);
 }
-.play-btn svg{width:16px;height:16px}
-.play-btn:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(91,156,246,0.55)}
+.play-btn svg{width:18px;height:18px}
+.play-btn:hover{transform:scale(1.12);box-shadow:0 8px 28px rgba(91,156,246,0.65)}
+.play-btn:active{transform:scale(.95)}
+
+/* Now playing pulse ring */
+.song-card.song-playing .play-btn{
+  animation:playPulse 2s ease-in-out infinite;
+}
+@keyframes playPulse{
+  0%,100%{box-shadow:0 4px 20px rgba(91,156,246,0.5)}
+  50%{box-shadow:0 4px 20px rgba(91,156,246,0.5),0 0 0 6px rgba(91,156,246,0.18)}
+}
+
+/* Add to playlist btn */
+.add-pl-btn{
+  width:32px;height:32px;border-radius:10px;flex-shrink:0;
+  background:rgba(255,255,255,0.07);border:1px solid var(--glass-border);
+  color:var(--t2);cursor:pointer;font-size:18px;font-weight:300;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;line-height:1;
+}
+.add-pl-btn:hover{background:rgba(91,156,246,0.15);border-color:rgba(91,156,246,0.4);color:var(--blue)}
+
 .yt-player-wrap{background:rgba(0,0,0,0.5);border:1px solid var(--glass-border);border-radius:var(--r);overflow:hidden;margin-bottom:14px;aspect-ratio:16/9;position:relative}
 .yt-player-wrap iframe{width:100%;height:100%;border:none}
+
+/* URL fetch loading */
+.url-fetch-row{display:flex;gap:8px;align-items:flex-end}
+.url-fetch-status{font-size:11px;margin-top:6px;min-height:18px;font-family:var(--mono);display:flex;align-items:center;gap:6px}
+.url-fetch-status.loading{color:var(--blue)}
+.url-fetch-status.ok{color:var(--teal)}
+.url-fetch-status.err{color:var(--rose)}
 
 /* ========================================
    NOTIFICATIONS PANEL
@@ -1070,8 +1141,11 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   .chat-conv-col{border-radius:var(--r)}
   .chat-back{display:block !important}
   .chat-wrap{gap:0}
-  #panel-chat{display:none;height:calc(100vh - 76px - var(--sat) - var(--sab))}
-  #panel-chat.active{display:flex}
+  #panel-chat{display:none;height:calc(100vh - 68px - var(--sat) - var(--sab));flex:1}
+  #panel-chat.active{display:flex;flex-direction:column}
+  #panel-chat.active .chat-wrap{flex:1;min-height:0}
+  #panel-chat.active .chat-conv-col{flex:1;display:flex;flex-direction:column;min-height:0}
+  #panel-chat.active .msgs-area{flex:1;min-height:0}
   .profile-card{max-width:100%}
   .notif-panel{left:0;right:0;top:0;bottom:0;border-radius:0;width:auto}
   .cal-day{min-height:44px}
@@ -1451,21 +1525,42 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 
         <!-- PLAYLIST -->
         <div class="panel" id="panel-playlist">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
             <div>
               <div style="font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px">
                 <svg width="18" height="18"><use href="#ic-music"/></svg> Playlist ของกลุ่ม
               </div>
               <div style="font-size:11px;color:var(--t2);margin-top:3px">แชร์เพลงที่ชอบให้เพื่อนในกลุ่ม</div>
             </div>
-            <button class="btn btn-blue btn-sm" onclick="openAddSong()">
-              <svg><use href="#ic-plus"/></svg> แชร์เพลง
-            </button>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <button class="btn btn-ghost btn-sm" onclick="openMyPlaylistModal()">
+                <svg><use href="#ic-list"/></svg> My Playlist
+              </button>
+              <button class="btn btn-blue btn-sm" onclick="openAddSong()">
+                <svg><use href="#ic-plus"/></svg> แชร์เพลง
+              </button>
+            </div>
           </div>
-          <div class="playlist-tabs">
+          <!-- Now Playing Bar -->
+          <div id="now-playing-bar" style="display:none;background:linear-gradient(135deg,rgba(91,156,246,0.15),rgba(139,116,248,0.1));border:1px solid rgba(91,156,246,0.3);border-radius:var(--r2);padding:10px 14px;margin-bottom:12px;display:none;align-items:center;gap:10px;position:relative">
+            <img id="np-thumb" src="" style="width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0;display:none">
+            <div id="np-icon-fallback" style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--violet));display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" style="color:white"><use href="#ic-music"/></svg></div>
+            <div style="flex:1;min-width:0">
+              <div id="np-title" style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">กำลังเล่น...</div>
+              <div id="np-artist" style="font-size:11px;color:var(--t2);margin-top:2px"></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+              <button onclick="playPrevSong()" title="ก่อนหน้า" style="background:rgba(255,255,255,0.08);border:1px solid var(--glass-border);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);transition:all .15s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--t2)'">‹</button>
+              <button onclick="playNextSong()" title="ถัดไป" style="background:rgba(255,255,255,0.08);border:1px solid var(--glass-border);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);transition:all .15s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--t2)'">›</button>
+              <button id="autoplay-toggle" onclick="toggleAutoplay()" title="เล่นต่อเนื่อง" style="background:rgba(91,156,246,0.15);border:1px solid rgba(91,156,246,0.35);border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;font-family:var(--mono);cursor:pointer;color:var(--blue);transition:all .15s">AUTO ON</button>
+              <button onclick="stopPlayback()" style="background:rgba(252,107,130,0.1);border:1px solid rgba(252,107,130,0.25);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--rose);font-size:14px;transition:all .15s" title="หยุด">×</button>
+            </div>
+          </div>
+          <div class="playlist-tabs" style="flex-wrap:wrap">
             <button class="pl-tab active" id="pl-all-tab" onclick="setPlTab('all')">ทั้งหมด</button>
             <button class="pl-tab" id="pl-yt-tab" onclick="setPlTab('youtube')"><svg><use href="#ic-youtube"/></svg> YouTube</button>
             <button class="pl-tab" id="pl-sp-tab" onclick="setPlTab('spotify')"><svg><use href="#ic-spotify"/></svg> Spotify</button>
+            <button class="pl-tab" id="pl-mylist-tab" onclick="setPlTab('mylist')" style="display:none"><svg><use href="#ic-list"/></svg> My List</button>
           </div>
           <div id="yt-player-container" style="display:none">
             <div class="yt-player-wrap"><div id="yt-player-inner"></div></div>
@@ -1825,13 +1920,67 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 </div></div>
 
 <!-- MODAL ADD SONG -->
-<div class="modal-overlay" id="modal-add-song"><div class="modal">
-  <div class="modal-title">แชร์เพลง</div>
-  <div class="form-group"><label>ชื่อเพลง</label><input id="song-title" class="inp" placeholder="เช่น Blinding Lights" style="width:100%"></div>
-  <div class="form-group"><label>ศิลปิน</label><input id="song-artist" class="inp" placeholder="เช่น The Weeknd" style="width:100%"></div>
-  <div class="form-group"><label>ลิงก์ YouTube หรือ Spotify</label><input id="song-url" class="inp" placeholder="https://..." style="width:100%"></div>
-  <div class="form-group"><label>โน้ต</label><input id="song-note" class="inp" placeholder="ฟังแล้วรู้สึกยังไง... (ไม่บังคับ)" style="width:100%"></div>
-  <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-add-song')">ยกเลิก</button><button class="btn btn-blue" onclick="saveSong()">แชร์ →</button></div>
+<div class="modal-overlay" id="modal-add-song"><div class="modal" style="max-width:440px">
+  <div class="modal-title" style="display:flex;align-items:center;gap:8px">
+    <svg width="18" height="18"><use href="#ic-music"/></svg> แชร์เพลง
+  </div>
+  <!-- URL input + fetch -->
+  <div class="form-group">
+    <label>ลิงก์ YouTube หรือ Spotify</label>
+    <div style="display:flex;gap:8px">
+      <input id="song-url" class="inp" placeholder="วางลิงก์เพลงที่นี่..." style="flex:1" oninput="onSongUrlInput(this.value)">
+      <button class="btn btn-blue btn-sm" onclick="fetchSongMeta()" id="fetch-btn" style="flex-shrink:0;white-space:nowrap">
+        <svg width="14" height="14"><use href="#ic-sparkle"/></svg> ดึงข้อมูล
+      </button>
+    </div>
+    <div class="url-fetch-status" id="fetch-status"></div>
+  </div>
+  <!-- Preview card (shows after fetch) -->
+  <div id="song-preview-card" style="display:none;background:var(--glass-bg);border:1px solid var(--glass-border-strong);border-radius:var(--r2);padding:14px;margin-bottom:14px;display:none">
+    <div style="display:flex;gap:12px;align-items:center">
+      <img id="prev-thumb" src="" style="width:64px;height:64px;border-radius:12px;object-fit:cover;flex-shrink:0;box-shadow:0 4px 16px rgba(0,0,0,0.4)">
+      <div style="flex:1;min-width:0">
+        <div id="prev-title" style="font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div>
+        <div id="prev-artist" style="font-size:12px;color:var(--t2);margin-top:3px"></div>
+        <div id="prev-type-badge" style="display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-size:10px;font-family:var(--mono);background:rgba(91,156,246,0.12);color:var(--blue);border:1px solid rgba(91,156,246,0.25);border-radius:20px;padding:2px 8px"></div>
+      </div>
+    </div>
+    <!-- Editable fields (can override) -->
+    <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:8px">
+        <div style="flex:1"><label style="font-size:10px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.6px;font-family:var(--mono);display:block;margin-bottom:4px">ชื่อเพลง</label><input id="song-title" class="inp" style="width:100%;font-size:13px"></div>
+        <div style="flex:1"><label style="font-size:10px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.6px;font-family:var(--mono);display:block;margin-bottom:4px">ศิลปิน</label><input id="song-artist" class="inp" style="width:100%;font-size:13px"></div>
+      </div>
+      <div><label style="font-size:10px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.6px;font-family:var(--mono);display:block;margin-bottom:4px">โน้ต (ไม่บังคับ)</label><input id="song-note" class="inp" placeholder="ฟังแล้วรู้สึกยังไง..." style="width:100%;font-size:13px"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="closeModal('modal-add-song')">ยกเลิก</button>
+    <button class="btn btn-blue" onclick="saveSong()" id="save-song-btn" disabled style="opacity:.5">แชร์ →</button>
+  </div>
+</div></div>
+
+<!-- MODAL MY PLAYLIST -->
+<div class="modal-overlay" id="modal-my-playlist"><div class="modal" style="max-width:480px">
+  <div class="modal-title" style="display:flex;align-items:center;gap:8px"><svg width="18" height="18"><use href="#ic-list"/></svg> My Playlist</div>
+  <div style="font-size:12px;color:var(--t2);margin-bottom:14px">สร้าง playlist ส่วนตัว แล้วกดเล่นเพลงต่อกันอัตโนมัติ</div>
+  <!-- Create new playlist -->
+  <div style="display:flex;gap:8px;margin-bottom:14px">
+    <input id="new-pl-name" class="inp" placeholder="ชื่อ Playlist..." style="flex:1">
+    <button class="btn btn-blue btn-sm" onclick="createMyPlaylist()">+ สร้าง</button>
+  </div>
+  <!-- List of my playlists -->
+  <div id="my-playlists-list" style="max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:8px"></div>
+  <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-my-playlist')">ปิด</button></div>
+</div></div>
+
+<!-- MODAL ADD TO PLAYLIST -->
+<div class="modal-overlay" id="modal-add-to-playlist"><div class="modal" style="max-width:380px">
+  <div class="modal-title">เพิ่มในกลุ่ม Playlist</div>
+  <div style="font-size:12px;color:var(--t2);margin-bottom:12px">เลือก playlist ที่ต้องการเพิ่มเพลงนี้</div>
+  <div id="atpl-list" style="max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:6px"></div>
+  <input type="hidden" id="atpl-song-id">
+  <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-add-to-playlist')">ยกเลิก</button></div>
 </div></div>
 
 <!-- MEMBERS OVERLAY -->
@@ -1924,13 +2073,15 @@ window.setLang=lang=>{applyLang(lang);};
 window.showToast=(msg,type="ok")=>{const toast=document.getElementById("toast");toast.textContent=msg;toast.className="toast show"+(type==="err"?" err":type==="warn"?" warn":"");clearTimeout(toast._t);toast._t=setTimeout(()=>toast.className="toast",3200);};
 window.closeModal=id=>$(id).classList.remove("show");
 const openModal=id=>$(id).classList.add("show");
-let confirmCb=null;
-window.showConfirm=(ico,title,msg,sub,okLbl,okCls,cb)=>{
+let confirmCb=null,confirmCancelCb=null;
+window.showConfirm=(ico,title,msg,sub,okLbl,okCls,cb,cancelCb)=>{
   $("conf-title").textContent=title;$("conf-msg").textContent=msg;$("conf-sub").textContent=sub||"";
   const btn=$("conf-ok");btn.textContent=okLbl||"ยืนยัน";btn.className="btn "+(okCls||"btn-danger");
-  confirmCb=cb;openModal("modal-confirm");
+  confirmCb=cb;confirmCancelCb=cancelCb||null;openModal("modal-confirm");
 };
 $("conf-ok").onclick=()=>{closeModal("modal-confirm");if(confirmCb)confirmCb();};
+// Override cancel button to call cancelCb if set
+document.querySelector("#modal-confirm .btn-ghost").addEventListener("click",()=>{if(confirmCancelCb)confirmCancelCb();confirmCancelCb=null;});
 
 
 // ── THEME ──
@@ -2258,7 +2409,8 @@ function loadMessages(path,roomKey){
 }
 function renderMsgs(msgs,path){
   const area=$("msgs-area");if(!area)return;
-  const wasBottom=area.scrollHeight-area.scrollTop-area.clientHeight<80;
+  const isFirstLoad=area.innerHTML.includes("กำลังโหลด")||area.innerHTML.includes("Loading");
+  const wasBottom=isFirstLoad||area.scrollHeight-area.scrollTop-area.clientHeight<80;
   const sorted=Object.entries(msgs).sort((a,b)=>a[1].ts-b[1].ts);
   const now=Date.now();
   const FIVE_DAYS=5*24*60*60*1000;
@@ -2306,7 +2458,10 @@ function renderMsgs(msgs,path){
     prevTs=m.ts;prevUid=m.uid;
   });
   area.innerHTML=html||`<div class="empty" style="margin:auto"><div class="empty-ico"><svg width="36" height="36"><use href="#ic-chat"/></svg></div>${"ยังไม่มีข้อความ"}</div>`;
-  if(wasBottom)area.scrollTop=area.scrollHeight;
+  if(wasBottom){
+    if(isFirstLoad){requestAnimationFrame(()=>{area.scrollTop=area.scrollHeight;});}
+    else{area.scrollTop=area.scrollHeight;}
+  }
   sorted.filter(([,m])=>m.uid!==ME.uid&&!m.readBy?.[ME.uid]).slice(-10).forEach(([id])=>update(ref(db,`${path}/${id}/readBy`),{[ME.uid]:true}));
 }
 
@@ -2735,7 +2890,7 @@ function renderBoard(){
         ${c.desc?`<div style="font-size:11px;color:var(--t2);margin-bottom:5px">${esc(c.desc)}</div>`:""}
         <div class="kanban-card-meta">
           <span>@${c.byNick||"?"}</span>
-          <span style="margin-left:auto;cursor:pointer;color:var(--rose)" onclick="deleteCard('${id}')">×</span>
+          <button style="margin-left:auto;cursor:pointer;color:var(--rose);background:rgba(252,107,130,0.12);border:1px solid rgba(252,107,130,0.25);border-radius:8px;width:32px;height:32px;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s" onclick="deleteCard('${id}')" onmouseover="this.style.background='rgba(252,107,130,0.25)'" onmouseout="this.style.background='rgba(252,107,130,0.12)'">×</button>
         </div>
       </div>`).join("");
     const countEl=$("count-"+col);if(countEl)countEl.textContent=cards.length;
@@ -2822,58 +2977,423 @@ function initKanbanTouch(){
 }
 
 // ── PLAYLIST ──
+let autoplayOn=true;
+let currentQueueIds=[];
+let currentQueueIdx=-1;
+let myPlaylists={};// {id:{name,songs:[songId,...]}}
+let activePlId=null;// currently playing playlist id
+
 function subscribePlaylist(){onValue(ref(db,"playlist"),snap=>{songsCache=snap.val()||{};if(currentPanel==="playlist")renderPlaylist();});}
 function getYTId(url){const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);return m?m[1]:null;}
 function getSpotifyEmbed(url){return url.includes("spotify.com")?url.replace("open.spotify.com/track","open.spotify.com/embed/track").replace("open.spotify.com/playlist","open.spotify.com/embed/playlist").replace("open.spotify.com/album","open.spotify.com/embed/album"):null;}
 function getSongType(url){if(!url)return"other";if(url.includes("youtube.com")||url.includes("youtu.be"))return"youtube";if(url.includes("spotify.com"))return"spotify";return"other";}
+function getYTThumb(url){const id=getYTId(url);return id?`https://img.youtube.com/vi/${id}/mqdefault.jpg`:null;}
+function loadMyPlaylists(){try{myPlaylists=JSON.parse(localStorage.getItem("st_my_playlists_"+ME.uid)||"{}");}catch(e){myPlaylists={};}}
+function saveMyPlaylists(){try{localStorage.setItem("st_my_playlists_"+ME.uid,JSON.stringify(myPlaylists));}catch(e){}}
+
 function renderPlaylist(){
   const el=$("playlist-songs");if(!el)return;
   const songs=Object.entries(songsCache).sort((a,b)=>b[1].ts-a[1].ts);
-  const filtered=plTab==="all"?songs:songs.filter(([,s])=>getSongType(s.url)===plTab);
-  el.innerHTML=filtered.length?filtered.map(([id,s])=>{
+  let filtered;
+  if(plTab==="mylist"&&activePlId&&myPlaylists[activePlId]){
+    const ids=myPlaylists[activePlId].songs||[];
+    filtered=ids.map(id=>[id,songsCache[id]]).filter(([,s])=>s);
+  } else {
+    filtered=plTab==="all"?songs:songs.filter(([,s])=>getSongType(s.url)===plTab);
+  }
+  if(!filtered.length){
+    const emptyMsg=plTab==="mylist"?"Playlist ว่างอยู่ — เพิ่มเพลงโดยกดปุ่ม + บนเพลง":"ยังไม่มีเพลง — กด \"+ แชร์เพลง\" เพื่อเริ่มต้น!";
+    el.innerHTML='<div class="empty"><div class="empty-ico"><svg width="40" height="40"><use href="#ic-music"/></svg></div>'+emptyMsg+'</div>';
+    return;
+  }
+  el.innerHTML=filtered.map(([id,s])=>{
     const type=getSongType(s.url);
-    const iconId=type==="youtube"?"youtube":type==="spotify"?"spotify":"music";
-    return`<div class="song-card">
-      <div class="song-thumb-placeholder"><svg width="22" height="22"><use href="#ic-${iconId}"/></svg></div>
-      <div class="song-info">
-        <div class="song-title">${esc(s.title||"ไม่มีชื่อ")}</div>
-        <div class="song-artist">${esc(s.artist||"")}</div>
-        ${s.note?`<div class="song-artist" style="color:var(--t3);font-style:italic">"${esc(s.note)}"</div>`:""}
-        <div class="song-meta"><span>@${s.byNick||"?"}</span><span>·</span><span>${fmtDate(s.ts)}</span></div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:6px;align-items:center">
-        <button class="play-btn" onclick="playSong('${id}','${encodeURIComponent(s.url||"")}')" title="เล่น"><svg><use href="#ic-play"/></svg></button>
-        ${ME.uid===s.by?`<button class="del-btn" onclick="deleteSong('${id}')">×</button>`:""}
-      </div>
-    </div>`;
-  }).join(""):`<div class="empty"><div class="empty-ico"><svg width="40" height="40"><use href="#ic-music"/></svg></div>ยังไม่มีเพลง — กด "+ แชร์เพลง" เพื่อเริ่มต้น!</div>`;
+    const thumb=s.thumb||getYTThumb(s.url||"");
+    const isPlaying=currentQueueIds[currentQueueIdx]===id;
+    const playingClass=isPlaying?" song-playing":"";
+    const playingArrow=isPlaying?'<span style="color:var(--blue);margin-right:5px;font-size:12px">&#9654;</span>':"";
+    const iconName=type==="youtube"?"youtube":type==="spotify"?"spotify":"music";
+    const coverHtml=thumb
+      ?'<img class="song-cover" src="'+thumb+'" alt="" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+       +'<div class="song-thumb-placeholder" style="display:none"><svg width="28" height="28"><use href="#ic-'+iconName+'"/></svg></div>'
+      :'<div class="song-thumb-placeholder"><svg width="28" height="28"><use href="#ic-'+iconName+'"/></svg></div>';
+    const noteHtml=s.note?'<div class="song-artist" style="color:var(--t3);font-style:italic;margin-top:2px">"'+esc(s.note)+'"</div>':"";
+    const canDel=ME.uid===s.by;
+    return'<div class="song-swipe-wrap" id="swrap-'+id+'">'
+      +'<div class="song-delete-bg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg><span>ลบ</span></div>'
+      +'<div class="song-card'+playingClass+'" id="scard-'+id+'" data-id="'+id+'" data-canDel="'+canDel+'">'
+        +coverHtml
+        +'<div class="song-info">'
+          +'<div class="song-title">'+playingArrow+esc(s.title||"ไม่มีชื่อ")+'</div>'
+          +'<div class="song-artist">'+esc(s.artist||"")+'</div>'
+          +noteHtml
+          +'<div class="song-meta"><span>@'+(s.byNick||"?")+'</span><span>&middot;</span>'
+            +'<span style="display:inline-flex;align-items:center;gap:3px">'
+              +(type==="youtube"?'<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="color:#ff4444"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 3.993L9 16z"/></svg>':type==="spotify"?'<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="color:#1db954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>':'')
+              +type
+            +'</span>'
+          +'</div>'
+        +'</div>'
+        +'<div style="display:flex;flex-direction:column;gap:8px;align-items:center;flex-shrink:0">'
+          +'<button class="play-btn" onclick="playSongInQueue(\''+id+'\')" title="เล่น"><svg width="18" height="18"><use href="#ic-play"/></svg></button>'
+          +'<button class="add-pl-btn" onclick="openAddToPlaylistModal(\''+id+'\')" title="เพิ่มใน Playlist">+</button>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  }).join("");
+  // Init swipe after render
+  requestAnimationFrame(()=>initSwipeDelete());
 }
-window.playSong=(id,encodedUrl)=>{
-  const url=decodeURIComponent(encodedUrl);
-  const wrap=$("yt-player-container"),inner=$("yt-player-inner");
-  const ytId=getYTId(url),spEmbed=getSpotifyEmbed(url);
-  wrap.style.display="block";
-  if(ytId)inner.innerHTML=`<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
-  else if(spEmbed)inner.innerHTML=`<iframe src="${spEmbed}" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture" allowfullscreen></iframe>`;
-  else{window.open(url,"_blank");wrap.style.display="none";}
-  wrap.scrollIntoView({behavior:"smooth",block:"start"});
+
+// Build queue from current filtered list
+function buildCurrentQueue(){
+  const songs=Object.entries(songsCache).sort((a,b)=>b[1].ts-a[1].ts);
+  let filtered;
+  if(plTab==="mylist"&&activePlId&&myPlaylists[activePlId]){
+    const ids=myPlaylists[activePlId].songs||[];
+    filtered=ids.map(id=>[id,songsCache[id]]).filter(([,s])=>s);
+  } else {
+    filtered=plTab==="all"?songs:songs.filter(([,s])=>getSongType(s.url)===plTab);
+  }
+  currentQueueIds=filtered.map(([id])=>id);
+  return currentQueueIds;
+}
+
+window.playSongInQueue=(id)=>{
+  buildCurrentQueue();
+  const idx=currentQueueIds.indexOf(id);
+  currentQueueIdx=idx>=0?idx:0;
+  if(idx<0&&currentQueueIds.length>0)currentQueueIds.unshift(id),currentQueueIdx=0;
+  _doPlaySong(id);
 };
-window.setPlTab=(tab)=>{
-  plTab=tab;
-  document.querySelectorAll(".pl-tab").forEach(el=>el.classList.remove("active"));
-  ($("pl-"+tab+"-tab")||$("pl-all-tab")).classList.add("active");
-  $("yt-player-container").style.display="none";
+
+window.playNextSong=()=>{
+  if(currentQueueIds.length===0)return;
+  currentQueueIdx=(currentQueueIdx+1)%currentQueueIds.length;
+  _doPlaySong(currentQueueIds[currentQueueIdx]);
+};
+window.playPrevSong=()=>{
+  if(currentQueueIds.length===0)return;
+  currentQueueIdx=(currentQueueIdx-1+currentQueueIds.length)%currentQueueIds.length;
+  _doPlaySong(currentQueueIds[currentQueueIdx]);
+};
+window.toggleAutoplay=()=>{
+  autoplayOn=!autoplayOn;
+  const btn=$("autoplay-toggle");if(btn){btn.textContent=autoplayOn?"AUTO ON":"AUTO OFF";btn.style.background=autoplayOn?"rgba(91,156,246,0.15)":"rgba(255,255,255,0.07)";btn.style.borderColor=autoplayOn?"rgba(91,156,246,0.35)":"var(--glass-border)";btn.style.color=autoplayOn?"var(--blue)":"var(--t2)";}
+  showToast(autoplayOn?"เล่นต่อเนื่องเปิดอยู่ ▶":"เล่นต่อเนื่องปิดแล้ว");
+};
+window.stopPlayback=()=>{
+  const wrap=$("yt-player-container");if(wrap)wrap.style.display="none";
+  currentQueueIdx=-1;
+  const bar=$("now-playing-bar");if(bar)bar.style.display="none";
   renderPlaylist();
 };
-window.openAddSong=()=>{["song-title","song-artist","song-url","song-note"].forEach(id=>$(id).value="");openModal("modal-add-song");};
-window.saveSong=async()=>{
-  const title=$("song-title").value.trim(),url=$("song-url").value.trim();
-  if(!title||!url){showToast("ใส่ชื่อเพลงและลิงก์ด้วย","warn");return;}
-  await push(ref(db,"playlist"),{title,artist:$("song-artist").value.trim(),url,note:$("song-note").value.trim(),by:ME.uid,byNick:ME.nick,ts:Date.now()});
-  closeModal("modal-add-song");showToast("แชร์เพลงแล้ว");
-  pushNotif(`เพลงใหม่: ${title}`,`@${ME.nick} แชร์เพลงใหม่มาให้`);
+
+function _doPlaySong(id){
+  const s=songsCache[id];if(!s)return;
+  const url=s.url||"";
+  const wrap=$("yt-player-container"),inner=$("yt-player-inner");
+  const ytId=getYTId(url),spEmbed=getSpotifyEmbed(url);
+  // Update now playing bar
+  const bar=$("now-playing-bar");
+  if(bar){
+    bar.style.display="flex";
+    const thumb=getYTThumb(url);
+    const npThumb=$("np-thumb"),npIcon=$("np-icon-fallback");
+    if(thumb&&npThumb){npThumb.src=thumb;npThumb.style.display="block";if(npIcon)npIcon.style.display="none";}
+    else{if(npThumb)npThumb.style.display="none";if(npIcon)npIcon.style.display="flex";}
+    const t=$("np-title");if(t)t.textContent=s.title||"ไม่มีชื่อ";
+    const a=$("np-artist");if(a)a.textContent=s.artist||"";
+  }
+  if(ytId){
+    wrap.style.display="block";
+    // Use YouTube IFrame API for ended event if available, else fallback to postMessage
+    inner.innerHTML=`<iframe id="yt-iframe" src="https://www.youtube.com/embed/${ytId}?autoplay=1&enablejsapi=1" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
+    // Listen for video end via postMessage
+    window._ytCurrentId=id;
+  } else if(spEmbed){
+    wrap.style.display="block";
+    inner.innerHTML=`<iframe src="${spEmbed}" allow="autoplay;clipboard-write;encrypted-media;fullscreen;picture-in-picture" allowfullscreen></iframe>`;
+    window._ytCurrentId=null;
+  } else{
+    window.open(url,"_blank");wrap.style.display="none";
+    if(autoplayOn)setTimeout(()=>playNextSong(),1000);
+  }
+  wrap.scrollIntoView({behavior:"smooth",block:"start"});
+  renderPlaylist();
+}
+
+// Listen for YouTube video end via postMessage
+window.addEventListener("message",e=>{
+  try{
+    const data=typeof e.data==="string"?JSON.parse(e.data):e.data;
+    // YouTube IFrame API sends {event:"infoDelivery",info:{playerState:0}} when ended (state=0)
+    if(data.event==="infoDelivery"&&data.info&&data.info.playerState===0){
+      if(autoplayOn)setTimeout(()=>playNextSong(),1200);
+    }
+  }catch(err){}
+});
+
+// Legacy playSong kept for backward compatibility
+window.playSong=(id,encodedUrl)=>{
+  window.playSongInQueue(id);
 };
-window.deleteSong=id=>showConfirm("","ลบเพลง?","","","ลบเลย","btn-danger",async()=>remove(ref(db,`playlist/${id}`)));
+
+window.setPlTab=(tab,plId)=>{
+  plTab=tab;
+  if(tab==="mylist"&&plId)activePlId=plId;
+  document.querySelectorAll(".pl-tab").forEach(el=>el.classList.remove("active"));
+  const activeTab=$("pl-"+tab+"-tab")||$("pl-all-tab");activeTab.classList.add("active");
+  const wrap=$("yt-player-container");if(wrap)wrap.style.display="none";
+  buildCurrentQueue();
+  renderPlaylist();
+};
+window.openAddSong=()=>{
+  $("song-url").value="";
+  $("song-title").value="";
+  $("song-artist").value="";
+  $("song-note").value="";
+  $("fetch-status").textContent="";
+  $("fetch-status").className="url-fetch-status";
+  $("song-preview-card").style.display="none";
+  $("save-song-btn").disabled=true;
+  $("save-song-btn").style.opacity=".5";
+  openModal("modal-add-song");
+};
+
+// Debounce auto-fetch on paste/type
+let fetchTimer=null;
+window.onSongUrlInput=url=>{
+  clearTimeout(fetchTimer);
+  if(url.length>10)fetchTimer=setTimeout(()=>fetchSongMeta(),600);
+};
+
+window.fetchSongMeta=async()=>{
+  const url=$("song-url").value.trim();
+  if(!url){showToast("ใส่ลิงก์ก่อน","warn");return;}
+  const status=$("fetch-status");
+  const btn=$("fetch-btn");
+  btn.disabled=true;
+  status.className="url-fetch-status loading";
+  status.innerHTML='<span class="spinner" style="width:12px;height:12px;border-width:1.5px"></span> กำลังดึงข้อมูล...';
+
+  const ytId=getYTId(url);
+  const isSpotify=url.includes("spotify.com");
+  let title="",artist="",thumb="",type="";
+
+  try{
+    if(ytId){
+      type="YouTube";
+      thumb="https://img.youtube.com/vi/"+ytId+"/mqdefault.jpg";
+      // Use oEmbed to get title
+      const oEmbedUrl="https://www.youtube.com/oembed?url="+encodeURIComponent("https://www.youtube.com/watch?v="+ytId)+"&format=json";
+      const res=await fetch(oEmbedUrl);
+      if(res.ok){
+        const data=await res.json();
+        const raw=data.title||"";
+        // Try to split "Artist - Title" pattern
+        if(raw.includes(" - ")){
+          const parts=raw.split(" - ");
+          artist=parts[0].trim();
+          title=parts.slice(1).join(" - ").trim();
+        } else {
+          title=raw;
+          artist=data.author_name||"";
+        }
+        // Clean common suffixes
+        title=title.replace(/\s*\(Official.*?\)/gi,"").replace(/\s*\[Official.*?\]/gi,"").replace(/\s*\(Lyrics?\)/gi,"").replace(/\s*\[Lyrics?\]/gi,"").replace(/\s*\(Audio\)/gi,"").replace(/\s*\(MV\)/gi,"").replace(/\s*Official Music Video/gi,"").replace(/\s*Music Video/gi,"").trim();
+        artist=artist.replace(/ - Topic$/i,"").trim();
+      }
+    } else if(isSpotify){
+      type="Spotify";
+      // Spotify track: extract title from URL path
+      const m=url.match(/track\/([a-zA-Z0-9]+)/);
+      if(m){
+        // Try to use noembed as proxy fallback
+        const res=await fetch("https://noembed.com/embed?url="+encodeURIComponent(url));
+        if(res.ok){const d=await res.json();title=d.title||"";artist=d.author_name||"";}
+      }
+      if(!title)title="Spotify Track";
+      thumb="";
+    } else {
+      // Generic: try noembed
+      type="Link";
+      const res=await fetch("https://noembed.com/embed?url="+encodeURIComponent(url));
+      if(res.ok){const d=await res.json();title=d.title||"";artist=d.author_name||"";}
+      if(!title)title="เพลงจากลิงก์นี้";
+    }
+
+    // Fill fields
+    $("song-title").value=title;
+    $("song-artist").value=artist;
+    if($("prev-thumb")){
+      $("prev-thumb").src=thumb||"";
+      $("prev-thumb").style.display=thumb?"block":"none";
+    }
+    $("prev-title").textContent=title||"(ไม่ทราบชื่อ)";
+    $("prev-artist").textContent=artist||"";
+    $("prev-type-badge").innerHTML='<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><use href="#ic-music"/></svg>'+type;
+    $("song-preview-card").style.display="block";
+    $("save-song-btn").disabled=false;
+    $("save-song-btn").style.opacity="1";
+    status.className="url-fetch-status ok";
+    status.innerHTML='✓ ดึงข้อมูลสำเร็จ — แก้ไขได้ด้านล่าง';
+  }catch(e){
+    status.className="url-fetch-status err";
+    status.innerHTML='⚠ ดึงข้อมูลไม่สำเร็จ — กรอกชื่อเองได้เลย';
+    $("song-title").value="";$("song-artist").value="";
+    $("song-preview-card").style.display="block";
+    $("save-song-btn").disabled=false;$("save-song-btn").style.opacity="1";
+  }
+  btn.disabled=false;
+};
+
+window.saveSong=async()=>{
+  const url=$("song-url").value.trim();
+  const title=$("song-title").value.trim()||"ไม่ทราบชื่อ";
+  if(!url){showToast("ใส่ลิงก์ด้วย","warn");return;}
+  const ytId=getYTId(url);
+  const thumb=ytId?"https://img.youtube.com/vi/"+ytId+"/mqdefault.jpg":"";
+  await push(ref(db,"playlist"),{title,artist:$("song-artist").value.trim(),url,note:$("song-note").value.trim(),thumb,by:ME.uid,byNick:ME.nick,ts:Date.now()});
+  closeModal("modal-add-song");showToast("แชร์เพลงแล้ว ✓");
+  pushNotif("เพลงใหม่: "+title,"@"+ME.nick+" แชร์เพลงใหม่มาให้");
+};
+window.deleteSong=id=>showConfirm("","ลบเพลง?","","","ลบเลย","btn-danger",async()=>remove(ref(db,"playlist/"+id)));
+
+// ── SWIPE TO DELETE ──
+function initSwipeDelete(){
+  document.querySelectorAll(".song-card[data-id]").forEach(card=>{
+    if(card._swipeInit)return;
+    card._swipeInit=true;
+    const id=card.dataset.id;
+    const canDel=card.dataset.candel==="true";
+    if(!canDel)return;// only owner can delete
+    const wrap=card.closest(".song-swipe-wrap");
+    let startX=0,startY=0,curX=0,swiping=false,confirmed=false;
+    const THRESHOLD=80;// px to trigger
+
+    const onStart=e=>{
+      const t=e.touches?e.touches[0]:e;
+      startX=t.clientX;startY=t.clientY;curX=0;swiping=false;confirmed=false;
+      card.style.transition="none";
+    };
+    const onMove=e=>{
+      const t=e.touches?e.touches[0]:e;
+      const dx=t.clientX-startX;
+      const dy=t.clientY-startY;
+      if(!swiping&&Math.abs(dy)>Math.abs(dx))return;// vertical scroll
+      if(!swiping&&Math.abs(dx)<6)return;
+      swiping=true;
+      if(dx>0){card.style.transform="translateX(0)";return;}
+      curX=Math.max(dx,-THRESHOLD*1.6);
+      card.style.transform="translateX("+curX+"px)";
+      if(e.cancelable)e.preventDefault();
+    };
+    const onEnd=()=>{
+      if(!swiping){card.style.transform="";return;}
+      card.style.transition="transform .26s cubic-bezier(.25,0,.25,1)";
+      if(curX<-THRESHOLD){
+        card.style.transform="translateX(-"+THRESHOLD+"px)";
+        // Ask confirmation
+        setTimeout(()=>{
+          showConfirm("","ลบเพลงนี้?","","","ลบเลย","btn-danger",async()=>{
+            card.style.transition="transform .3s ease,opacity .3s ease";
+            card.style.transform="translateX(-110%)";
+            card.style.opacity="0";
+            await remove(ref(db,"playlist/"+id));
+          },()=>{
+            card.style.transition="transform .26s cubic-bezier(.25,0,.25,1)";
+            card.style.transform="translateX(0)";
+          });
+        },120);
+      } else {
+        card.style.transform="translateX(0)";
+      }
+      swiping=false;
+    };
+    card.addEventListener("touchstart",onStart,{passive:true});
+    card.addEventListener("touchmove",onMove,{passive:false});
+    card.addEventListener("touchend",onEnd,{passive:true});
+    // Mouse support for desktop
+    card.addEventListener("mousedown",e=>{if(e.button!==0)return;onStart(e);
+      const mm=ev=>onMove(ev);const mu=()=>{onEnd();document.removeEventListener("mousemove",mm);document.removeEventListener("mouseup",mu);};
+      document.addEventListener("mousemove",mm);document.addEventListener("mouseup",mu);
+    });
+  });
+}
+
+// ── MY PLAYLIST MANAGEMENT ──
+window.openMyPlaylistModal=()=>{
+  loadMyPlaylists();
+  renderMyPlaylistsList();
+  openModal("modal-my-playlist");
+};
+function renderMyPlaylistsList(){
+  const el=$("my-playlists-list");if(!el)return;
+  const pls=Object.entries(myPlaylists);
+  if(!pls.length){el.innerHTML=`<div style="text-align:center;padding:24px;color:var(--t3);font-size:13px">ยังไม่มี Playlist — สร้างด้านบนได้เลย</div>`;return;}
+  el.innerHTML=pls.map(([plId,pl])=>{
+    const count=(pl.songs||[]).length;
+    return`<div style="background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--r2);padding:12px 14px;display:flex;align-items:center;gap:10px">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:14px;font-weight:700">${esc(pl.name)}</div>
+        <div style="font-size:11px;color:var(--t2);margin-top:2px;font-family:var(--mono)">${count} เพลง</div>
+      </div>
+      <button onclick="playMyPlaylist('${plId}')" style="background:linear-gradient(135deg,var(--blue),var(--violet));border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(91,156,246,0.4);flex-shrink:0" title="เล่น Playlist นี้">
+        <svg width="16" height="16" style="color:white"><use href="#ic-play"/></svg>
+      </button>
+      <button onclick="confirmDeleteMyPlaylist('${plId}')" style="background:rgba(252,107,130,0.1);border:1px solid rgba(252,107,130,0.2);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--rose);font-size:16px;flex-shrink:0">×</button>
+    </div>`;
+  }).join("");
+}
+window.createMyPlaylist=()=>{
+  const name=$("new-pl-name").value.trim();if(!name){showToast("ใส่ชื่อ Playlist ด้วย","warn");return;}
+  const plId="pl_"+Date.now();
+  myPlaylists[plId]={name,songs:[]};
+  saveMyPlaylists();
+  $("new-pl-name").value="";
+  renderMyPlaylistsList();
+  showToast("สร้าง Playlist แล้ว ✓");
+};
+window.confirmDeleteMyPlaylist=(plId)=>{
+  showConfirm("","ลบ Playlist?","","","ลบเลย","btn-danger",()=>{
+    delete myPlaylists[plId];saveMyPlaylists();renderMyPlaylistsList();showToast("ลบแล้ว");
+  });
+};
+window.playMyPlaylist=(plId)=>{
+  closeModal("modal-my-playlist");
+  const pl=myPlaylists[plId];if(!pl||!pl.songs||!pl.songs.length){showToast("ยังไม่มีเพลงใน Playlist","warn");return;}
+  activePlId=plId;plTab="mylist";
+  // Show the my-list tab
+  const tab=$("pl-mylist-tab");if(tab)tab.style.display="flex";
+  document.querySelectorAll(".pl-tab").forEach(el=>el.classList.remove("active"));
+  if(tab)tab.classList.add("active");
+  buildCurrentQueue();
+  currentQueueIdx=0;
+  if(currentQueueIds.length>0)_doPlaySong(currentQueueIds[0]);
+  showToast(`เล่น: ${pl.name}`);
+};
+window.openAddToPlaylistModal=(songId)=>{
+  loadMyPlaylists();
+  $("atpl-song-id").value=songId;
+  const el=$("atpl-list");if(!el)return;
+  const pls=Object.entries(myPlaylists);
+  if(!pls.length){el.innerHTML=`<div style="text-align:center;padding:16px;color:var(--t3);font-size:13px">ยังไม่มี Playlist — ไปสร้างใน "My Playlist" ก่อน</div>`;}
+  else{el.innerHTML=pls.map(([plId,pl])=>`<div onclick="addSongToPlaylist('${plId}')" style="padding:12px 14px;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--r2);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:8px" onmouseover="this.style.borderColor='var(--glass-border-strong)'" onmouseout="this.style.borderColor='var(--glass-border)'">
+    <svg width="16" height="16" style="color:var(--blue)"><use href="#ic-music"/></svg>
+    <div style="flex:1"><div style="font-size:14px;font-weight:600">${esc(pl.name)}</div><div style="font-size:11px;color:var(--t2);font-family:var(--mono)">${(pl.songs||[]).length} เพลง</div></div>
+    <span style="font-size:20px;color:var(--blue)">+</span>
+  </div>`).join("");}
+  openModal("modal-add-to-playlist");
+};
+window.addSongToPlaylist=(plId)=>{
+  const songId=$("atpl-song-id").value;if(!songId)return;
+  if(!myPlaylists[plId].songs)myPlaylists[plId].songs=[];
+  if(myPlaylists[plId].songs.includes(songId)){showToast("อยู่ใน Playlist นี้แล้ว","warn");return;}
+  myPlaylists[plId].songs.push(songId);
+  saveMyPlaylists();closeModal("modal-add-to-playlist");
+  showToast(`เพิ่มใน "${myPlaylists[plId].name}" แล้ว ✓`);
+};
 
 let lastTap=0;document.addEventListener("touchend",e=>{const now=Date.now();if(now-lastTap<350)e.preventDefault();lastTap=now;},{passive:false});
 </script>
