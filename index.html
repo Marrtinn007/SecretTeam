@@ -324,7 +324,7 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
     <div class="login-sub">พื้นที่ส่วนตัวของเรา</div>
     <div class="err-msg" id="login-err"></div>
     <div class="field"><label>Login ID</label><input type="text" id="l-id" placeholder="รหัสเข้าระบบของคุณ" autocomplete="username" autocapitalize="none"></div>
-    <div class="field"><label>รหัสผ่าน</label><input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="field"><label>Password</label><input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <button class="login-btn" id="login-btn" onclick="doLogin()">เข้าสู่ระบบ →</button>
     <div class="login-note">🔒 เฉพาะสมาชิกที่ Admin เพิ่มให้เท่านั้น</div>
   </div>
@@ -914,7 +914,7 @@ function renderMsgs(msgs,path){
     const canEdit=isMe&&!m.deleted&&within24h(m.ts)&&m.text&&!m.location&&!m.poll;
     const canDel=isMe&&!m.deleted&&within24h(m.ts);
     const actions=(!m.deleted&&(canEdit||canDel))?`<div class="msg-actions">${canEdit?`<button class="ma-btn" onclick="startEdit('${id}','${(m.text||"").replace(/'/g,"\\'")}','${path}')">✏️</button>`:""}${canDel?`<button class="ma-btn" onclick="confirmDelMsg('${id}','${path}')">🗑</button>`:""}${!m.poll&&!m.location?`<button class="ma-btn" onclick="setDisappear('${id}','${path}')" title="ตั้งเวลาหายอัตโนมัติ">⏰</button>`:""}</div>`:"";
-    html+=`<div class="msg-row ${isMe?"me":"them"}" style="margin-bottom:${compact?"1px":"6px'}">
+    html+=`<div class="msg-row ${isMe?"me":"them"}" style="margin-bottom:${compact?"1px":"6px"}">
       <div class="msg-av-ph">${!isMe?`<div class="msg-av" style="background:${color}22;color:${color}">${!compact?getInitial(nick):""}</div>`:`<div style="width:26px"></div>`}</div>
       <div class="msg-col">${!isMe&&!compact?`<div class="msg-nick" style="color:${color}">${nick}</div>`:""}${actions}${content}<div class="msg-meta"><span class="msg-time">${fmtTime(m.ts)}</span>${readStr}${isDisapp?`<span style="font-size:9px;color:var(--amber);margin-left:4px">⏰</span>`:""}</div></div>
     </div>`;
@@ -1034,7 +1034,6 @@ async function uploadCloud(file,forChat=false){
 }
 
 // CHANNEL MANAGEMENT
-let ncLocked=false;
 window.openNewChannelModal=()=>{
   ncLocked=false;ncEmojis=[];
   $("nc-name").value="";$("nc-desc").value="";
@@ -1103,7 +1102,7 @@ window.toggleTask=(id,done)=>update(ref(db,`tasks/${id}`),{done:!done});
 window.confirmDeleteTask=id=>showConfirm("🗑","ลบ Task?","ต้องการลบ Task นี้?","","ลบเลย","btn-danger",()=>remove(ref(db,`tasks/${id}`)));
 function renderTasks(){
   const tasks=Object.entries(tasksCache).sort((a,b)=>b[1].ts-a[1].ts);
-  $("task-list").innerHTML=tasks.length?tasks.map(([id,t])=>`<div class="task-item fade-up"><div class="prio" style="background:${t.prio==="high"?"var(--rose)":t.prio==="mid"?"var(--amber)":"var(--teal)'}"></div><div class="task-chk${t.done?" done":""}" onclick="toggleTask('${id}',${t.done})">${t.done?"✓":""}</div><div style="flex:1;font-size:13px;${t.done?"text-decoration:line-through;color:var(--t3)":""}">${esc(t.text)}</div><span style="font-size:10px;color:var(--t2);font-family:var(--mono)">@${t.byNick||"?"}</span><button class="del-btn" onclick="confirmDeleteTask('${id}')">×</button></div>`).join(""):`<div class="empty"><div class="empty-ico">✅</div>ยังไม่มี Tasks</div>`;
+  $("task-list").innerHTML=tasks.length?tasks.map(([id,t])=>`<div class="task-item fade-up"><div class="prio" style="background:${t.prio==="high"?"var(--rose)":t.prio==="mid"?"var(--amber)":"var(--teal)"}"></div><div class="task-chk${t.done?" done":""}" onclick="toggleTask('${id}',${t.done})">${t.done?"✓":""}</div><div style="flex:1;font-size:13px;${t.done?"text-decoration:line-through;color:var(--t3)":""}">${esc(t.text)}</div><span style="font-size:10px;color:var(--t2);font-family:var(--mono)">@${t.byNick||"?"}</span><button class="del-btn" onclick="confirmDeleteTask('${id}')">×</button></div>`).join(""):`<div class="empty"><div class="empty-ico">✅</div>ยังไม่มี Tasks</div>`;
 }
 
 // NOTES
@@ -1190,7 +1189,7 @@ window.changePw=async()=>{
 // DASHBOARD
 function refreshDashboard(){
   const tasks=Object.entries(tasksCache).sort((a,b)=>b[1].ts-a[1].ts).slice(0,5);
-  $("dash-tasks").innerHTML=tasks.length?tasks.map(([id,t])=>`<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)"><div class="prio" style="background:${t.prio==="high"?"var(--rose)":t.prio==="mid"?"var(--amber)":"var(--teal)'}"></div><div style="flex:1;font-size:13px;${t.done?"text-decoration:line-through;color:var(--t3)":""}">${esc(t.text)}</div>${t.done?`<span class="tag tag-teal">✓</span>`:`<span class="tag tag-rose">รอ</span>`}</div>`).join(""):`<div class="empty"><div class="empty-ico">✅</div>ยังไม่มี Tasks</div>`;
+  $("dash-tasks").innerHTML=tasks.length?tasks.map(([id,t])=>`<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)"><div class="prio" style="background:${t.prio==="high"?"var(--rose)":t.prio==="mid"?"var(--amber)":"var(--teal)"}"></div><div style="flex:1;font-size:13px;${t.done?"text-decoration:line-through;color:var(--t3)":""}">${esc(t.text)}</div>${t.done?`<span class="tag tag-teal">✓</span>`:`<span class="tag tag-rose">รอ</span>`}</div>`).join(""):`<div class="empty"><div class="empty-ico">✅</div>ยังไม่มี Tasks</div>`;
   $("dash-members").innerHTML=Object.entries(membersCache).map(([uid,m])=>{const c=getColor(uid);return`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)"><div class="av" style="width:26px;height:26px;font-size:10px;background:${c}22;color:${c}">${getInitial(m.nick||"?")}</div><div style="flex:1;font-size:13px;font-weight:600">${m.nick||"?"} ${m.mood||""}</div><div style="width:7px;height:7px;border-radius:50%;background:${m.online?"var(--teal)":"var(--s3)"}"></div></div>`;}).join("")||`<div class="empty"><div class="empty-ico">👥</div>ยังไม่มีสมาชิก</div>`;
 }
 
