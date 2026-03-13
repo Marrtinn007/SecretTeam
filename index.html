@@ -34,6 +34,7 @@ html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smo
 :root{
   /* Background gradient mesh */
   --bg-base:#07091a;
+  --bg-card:#0d1025;
   /* Accent colors */
   --blue:#5b9cf6;--blue2:#8b74f8;--teal:#2ee8c8;--rose:#fc6b82;--amber:#fcc22b;--violet:#b48cf7;--green:#3ce8a0;
   /* Glass surface */
@@ -119,6 +120,7 @@ body::after{
 ======================================== */
 [data-theme="pink"]{
   --bg-base:#1e0818;
+  --bg-card:#200a1a;
   --glass-bg:rgba(255,160,200,0.08);
   --glass-bg-hover:rgba(255,160,200,0.13);
   --glass-bg-active:rgba(244,114,182,0.18);
@@ -126,8 +128,8 @@ body::after{
   --glass-border-strong:rgba(255,160,200,0.3);
   --glass-shine:rgba(255,200,230,0.08);
   --text:#ffe8f5;
-  --t2:#e8a0c8;
-  --t3:#8a4060;
+  --t2:#d89abf;
+  --t3:#9a5075;
   --t4:#380828;
   --blue:#f9a8d4;
   --blue2:#f472b6;
@@ -405,8 +407,14 @@ body::after{
   background:linear-gradient(135deg,var(--c),transparent);
   opacity:.04;pointer-events:none;
 }
-.stat-ico-wrap{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--c);opacity:.15;position:absolute;top:14px;right:14px}
-.stat-ico-wrap svg{width:18px;height:18px;opacity:6.66}
+.stat-ico-wrap{
+  width:40px;height:40px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  position:absolute;top:14px;right:14px;
+}
+.stat-ico-wrap svg{width:20px;height:20px;color:var(--c);opacity:1;filter:drop-shadow(0 0 6px var(--c))}
 .stat-n{font-size:28px;font-weight:800;font-family:var(--mono);margin:8px 0 3px}
 .stat-l{font-size:11px;color:var(--t2)}
 .dash-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
@@ -971,26 +979,30 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
 /* Swipe wrapper */
 .song-swipe-wrap{position:relative;border-radius:var(--r2);overflow:hidden;flex-shrink:0}
 .song-delete-bg{
-  position:absolute;top:0;right:0;bottom:0;left:0;
-  background:linear-gradient(135deg,#e8304a,#c0192b);
+  position:absolute;top:0;right:0;bottom:0;
+  width:100%;
+  background:linear-gradient(to left,#c0192b,#e8304a);
   display:flex;align-items:center;justify-content:flex-end;
-  padding-right:22px;gap:8px;border-radius:var(--r2);
+  padding-right:24px;gap:8px;border-radius:var(--r2);
   pointer-events:none;
-  z-index:0;/* behind the card */
+  z-index:0;
+  opacity:0;
+  transition:opacity .15s;
 }
-.song-delete-bg svg{width:22px;height:22px;color:white;opacity:0.9}
-.song-delete-bg span{color:white;font-size:13px;font-weight:700;opacity:0.9}
+.song-swipe-wrap.swiping .song-delete-bg{opacity:1}
+.song-delete-bg svg{width:22px;height:22px;color:white}
+.song-delete-bg span{color:white;font-size:13px;font-weight:700}
 
-/* Song card — sits ON TOP of delete bg */
+/* Song card — fully opaque so delete bg is hidden beneath */
 .song-card{
   display:flex;align-items:center;gap:14px;
   padding:12px 14px 12px 12px;
-  background:var(--glass-bg);
+  background:var(--bg-card,#111628);
   border:1px solid var(--glass-border);
   border-radius:var(--r2);
-  transition:transform .22s cubic-bezier(.25,0,.25,1),border-color .15s,background .15s;
+  transition:transform .22s cubic-bezier(.25,0,.25,1),border-color .15s;
   position:relative;
-  z-index:1;/* always on top */
+  z-index:1;
   will-change:transform;
   cursor:default;
   touch-action:pan-y;
@@ -1144,12 +1156,16 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   .chat-conv-col{border-radius:var(--r)}
   .chat-back{display:block !important}
   .chat-wrap{gap:0}
-  /* Chat panel: fill full viewport minus topbar only (no bottom nav padding) */
+  /* Chat panel: when showing chat list (nav visible), shrink by nav height */
   #panel-chat{display:none;flex:1}
   #panel-chat.active{
     display:flex;flex-direction:column;
-    height:calc(100vh - var(--sat));
+    height:calc(100vh - var(--sat) - 68px - var(--sab));
     margin-bottom:0;
+  }
+  /* When in a conversation (nav hidden), stretch full height */
+  body.chat-open #panel-chat.active{
+    height:calc(100vh - var(--sat));
   }
   #panel-chat.active .chat-wrap{flex:1;min-height:0;display:flex}
   #panel-chat.active .chat-conv-col{flex:1;display:flex;flex-direction:column;min-height:0}
@@ -1166,8 +1182,12 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
   .cal-day{min-height:44px}
   .more-drawer{width:100%;max-width:320px}
   /* Chat input mobile fixes */
-  .chat-input-wrap{padding:8px}
+  .chat-input-wrap{padding:8px;padding-bottom:calc(8px + var(--sab))}
   .chat-textarea{font-size:16px}/* prevent iOS zoom */
+  /* When chat conv is open: input wrap gets extra bottom breathing room */
+  body.chat-open .chat-input-wrap{
+    padding-bottom:calc(12px + var(--sab));
+  }
   /* Members overlay position fix */
   .members-col{padding-top:calc(20px + var(--sat))}
 }
@@ -1951,7 +1971,7 @@ textarea.inp{resize:vertical;min-height:260px;line-height:1.7}
     <div class="url-fetch-status" id="fetch-status"></div>
   </div>
   <!-- Preview card (shows after fetch) -->
-  <div id="song-preview-card" style="display:none;background:var(--glass-bg);border:1px solid var(--glass-border-strong);border-radius:var(--r2);padding:14px;margin-bottom:14px;display:none">
+  <div id="song-preview-card" style="background:var(--glass-bg);border:1px solid var(--glass-border-strong);border-radius:var(--r2);padding:14px;margin-bottom:14px;display:none">
     <div style="display:flex;gap:12px;align-items:center">
       <img id="prev-thumb" src="" style="width:64px;height:64px;border-radius:12px;object-fit:cover;flex-shrink:0;box-shadow:0 4px 16px rgba(0,0,0,0.4)">
       <div style="flex:1;min-width:0">
@@ -2350,7 +2370,7 @@ function renderChatList(){
         ${getInitial(m.nick||"?")}
         ${m.online?`<div class="online-dot"></div>`:""}
       </div>
-      <div class="cl-info"><div class="cl-name">${m.nick||"?"} ${m.mood||""}</div><div class="cl-sub" style="color:${m.online?"var(--teal)":"var(--t3)"}">${m.online?"● online":"● offline"}</div></div>
+      <div class="cl-info"><div class="cl-name">${m.nick||"?"} ${m.mood||""}</div><div class="cl-sub">${m.lastSeen?fmtDate(m.lastSeen):""}</div></div>
       ${un?`<span class="cl-badge">${un}</span>`:""}
     </div>`;
   }).join("")||`<div style="padding:10px;font-size:12px;color:var(--t3)">${"ยังไม่มีสมาชิก"}</div>`;
@@ -2905,7 +2925,13 @@ function renderBoard(){
         ${c.desc?`<div style="font-size:11px;color:var(--t2);margin-bottom:5px">${esc(c.desc)}</div>`:""}
         <div class="kanban-card-meta">
           <span>@${c.byNick||"?"}</span>
-          <button style="margin-left:auto;cursor:pointer;color:var(--rose);background:rgba(252,107,130,0.12);border:1px solid rgba(252,107,130,0.25);border-radius:8px;width:32px;height:32px;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s" onclick="deleteCard('${id}')" onmouseover="this.style.background='rgba(252,107,130,0.25)'" onmouseout="this.style.background='rgba(252,107,130,0.12)'">×</button>
+          <button
+            draggable="false"
+            ondragstart="event.stopPropagation()"
+            ontouchstart="event.stopPropagation()"
+            onclick="event.stopPropagation();deleteCard('${id}')"
+            style="margin-left:auto;cursor:pointer;color:var(--rose);background:rgba(252,107,130,0.12);border:1px solid rgba(252,107,130,0.25);border-radius:8px;width:32px;height:32px;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;-webkit-tap-highlight-color:transparent"
+          >×</button>
         </div>
       </div>`).join("");
     const countEl=$("count-"+col);if(countEl)countEl.textContent=cards.length;
@@ -3315,20 +3341,20 @@ function initSwipeDelete(){
       const t=e.touches?e.touches[0]:e;
       const dx=t.clientX-startX;
       const dy=t.clientY-startY;
-      if(!swiping&&Math.abs(dy)>Math.abs(dx))return;// vertical scroll
+      if(!swiping&&Math.abs(dy)>Math.abs(dx))return;
       if(!swiping&&Math.abs(dx)<6)return;
       swiping=true;
-      if(dx>0){card.style.transform="translateX(0)";return;}
+      if(dx>0){card.style.transform="translateX(0)";wrap.classList.remove("swiping");return;}
       curX=Math.max(dx,-THRESHOLD*1.6);
       card.style.transform="translateX("+curX+"px)";
+      wrap.classList.add("swiping");
       if(e.cancelable)e.preventDefault();
     };
     const onEnd=()=>{
-      if(!swiping){card.style.transform="";return;}
+      if(!swiping){card.style.transform="";wrap.classList.remove("swiping");return;}
       card.style.transition="transform .26s cubic-bezier(.25,0,.25,1)";
       if(curX<-THRESHOLD){
         card.style.transform="translateX(-"+THRESHOLD+"px)";
-        // Ask confirmation
         setTimeout(()=>{
           showConfirm("","ลบเพลงนี้?","","","ลบเลย","btn-danger",async()=>{
             card.style.transition="transform .3s ease,opacity .3s ease";
@@ -3338,10 +3364,12 @@ function initSwipeDelete(){
           },()=>{
             card.style.transition="transform .26s cubic-bezier(.25,0,.25,1)";
             card.style.transform="translateX(0)";
+            wrap.classList.remove("swiping");
           });
         },120);
       } else {
         card.style.transform="translateX(0)";
+        wrap.classList.remove("swiping");
       }
       swiping=false;
     };
@@ -3412,13 +3440,39 @@ window.openAddToPlaylistModal=(songId)=>{
   $("atpl-song-id").value=songId;
   const el=$("atpl-list");if(!el)return;
   const pls=Object.entries(myPlaylists);
-  if(!pls.length){el.innerHTML=`<div style="text-align:center;padding:16px;color:var(--t3);font-size:13px">ยังไม่มี Playlist — ไปสร้างใน "My Playlist" ก่อน</div>`;}
-  else{el.innerHTML=pls.map(([plId,pl])=>`<div onclick="addSongToPlaylist('${plId}')" style="padding:12px 14px;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--r2);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:8px" onmouseover="this.style.borderColor='var(--glass-border-strong)'" onmouseout="this.style.borderColor='var(--glass-border)'">
-    <svg width="16" height="16" style="color:var(--blue)"><use href="#ic-music"/></svg>
-    <div style="flex:1"><div style="font-size:14px;font-weight:600">${esc(pl.name)}</div><div style="font-size:11px;color:var(--t2);font-family:var(--mono)">${(pl.songs||[]).length} เพลง</div></div>
-    <span style="font-size:20px;color:var(--blue)">+</span>
-  </div>`).join("");}
+
+  // Always show a "create new" button at top
+  const createRow=`<div style="display:flex;gap:8px;margin-bottom:10px">
+    <input id="atpl-new-name" class="inp" placeholder="ชื่อ Playlist ใหม่..." style="flex:1;font-size:13px">
+    <button class="btn btn-blue btn-sm" onclick="createAndAddToPlaylist()" style="white-space:nowrap;flex-shrink:0">+ สร้าง</button>
+  </div>`;
+
+  if(!pls.length){
+    el.innerHTML=createRow+`<div style="text-align:center;padding:12px;color:var(--t3);font-size:12px">หรือสร้าง Playlist ใหม่ด้านบน</div>`;
+  } else {
+    el.innerHTML=createRow
+      +'<div style="font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;font-family:var(--mono);margin-bottom:6px">เพิ่มใน Playlist ที่มีอยู่</div>'
+      +pls.map(([plId,pl])=>`<div onclick="addSongToPlaylist('${plId}')" style="padding:11px 14px;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--r2);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent" onmouseover="this.style.background='var(--glass-bg-hover)'" onmouseout="this.style.background='var(--glass-bg)'">
+    <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--violet));display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <svg width="16" height="16" style="color:white"><use href="#ic-music"/></svg>
+    </div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(pl.name)}</div>
+      <div style="font-size:11px;color:var(--t2);font-family:var(--mono)">${(pl.songs||[]).length} เพลง</div>
+    </div>
+    <span style="font-size:22px;color:var(--blue);font-weight:300;flex-shrink:0">+</span>
+  </div>`).join("");
+  }
   openModal("modal-add-to-playlist");
+};
+window.createAndAddToPlaylist=()=>{
+  const name=($("atpl-new-name").value||"").trim();
+  if(!name){showToast("ใส่ชื่อ Playlist ด้วย","warn");return;}
+  const plId="pl_"+Date.now();
+  myPlaylists[plId]={name,songs:[]};
+  saveMyPlaylists();
+  // Now add the song
+  addSongToPlaylist(plId);
 };
 window.addSongToPlaylist=(plId)=>{
   const songId=$("atpl-song-id").value;if(!songId)return;
@@ -3429,7 +3483,13 @@ window.addSongToPlaylist=(plId)=>{
   showToast(`เพิ่มใน "${myPlaylists[plId].name}" แล้ว ✓`);
 };
 
-let lastTap=0;document.addEventListener("touchend",e=>{const now=Date.now();if(now-lastTap<350)e.preventDefault();lastTap=now;},{passive:false});
+// Prevent double-tap zoom ONLY on non-interactive elements
+let lastTap=0;document.addEventListener("touchend",e=>{
+  if(e.target.closest("button,a,input,textarea,select,[onclick]"))return;
+  const now=Date.now();
+  if(now-lastTap<350)e.preventDefault();
+  lastTap=now;
+},{passive:false});
 </script>
 </body>
 </html>
